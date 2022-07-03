@@ -15,9 +15,11 @@
         "./utils": "./dist/src/utils.js",
         "./package.json": "./package.json"
     },
-    "types": "./dist/src/index.d.ts",
     "typesVersions": {
         "*": {
+            "index.d.ts": [
+                "./dist/src/index.d.ts"
+            ],
             "core": [
                 "./dist/src/core/index.d.ts"
             ],
@@ -44,7 +46,7 @@
     "scripts": {
         "test": "jest",
         "build": "rm -rf ./dist && tsc",
-        "build:watch": "rm -rf ./dist && tsc"
+        "build:watch": "rm -rf ./dist && tsc -w"
     },
     "dependencies": {
         "ajv": "^8.11.0",

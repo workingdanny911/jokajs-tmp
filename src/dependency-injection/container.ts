@@ -1,29 +1,37 @@
 import 'reflect-metadata';
 import cls from 'cls-hooked';
-import { Container } from 'inversify';
-import { Sequelize } from 'sequelize';
-import { createClient } from 'redis';
+import {Container} from 'inversify';
+import {Sequelize} from 'sequelize';
+import {createClient} from 'redis';
 
 import config from 'joka/config';
-import { SequelizeUnitOfWork, UnitOfWork } from 'joka/core';
-import { RedisClient } from 'joka/utils';
+import {SequelizeUnitOfWork, UnitOfWork} from 'joka/core';
+import {RedisClient} from 'joka/utils';
+import {MessageStore, SequelizeMessageStore, SequelizeMessageTracker,} from 'joka/messaging';
 
 import TYPES from './dependecies';
+import {MessageTracker} from "joka/messaging/message-tracker";
 
 const container = new Container();
 
 const sequelizeNamespace = cls.createNamespace('sequelize');
 Sequelize.useCLS(sequelizeNamespace);
-container
-    .bind<Sequelize>(TYPES.Sequelize)
-    .toDynamicValue(() => new Sequelize(config.DATABASE))
-    .inSingletonScope();
-container.onDeactivation<Sequelize>(
-    TYPES.Sequelize,
-    async (sequelize: Sequelize) => {
-        await sequelize.close();
-    }
-);
+
+const sequelize = new Sequelize(config.DATABASE);
+
+container.bind<MessageStore>('MessageStore').toDynamicValue(() => new SequelizeMessageStore(sequelize));
+SequelizeMessageStore.defineModel(sequelize);
+
+container.bind<MessageTracker>('MessageTracker').toDynamicValue(() => new SequelizeMessageTracker(sequelize));
+SequelizeMessageTracker.defineModel(sequelize);
+
+container.bind<Sequelize>(TYPES.Sequelize).toConstantValue(sequelize);
+// container.onDeactivation<Sequelize>(
+//     TYPES.Sequelize,
+//     async (sequelize: Sequelize) => {
+//         await sequelize.close();
+//     }
+// );
 
 let redisClients: RedisClient[] = [];
 container
@@ -52,6 +60,14 @@ container
         ({ container }) =>
             new SequelizeUnitOfWork(container.get<Sequelize>(TYPES.Sequelize))
     )
+    .inSingletonScope();
+
+container
+    .bind<MessageStore>(TYPES.MessageStoreForMessaging)
+    .toDynamicValue(() => {
+        const sequelize = container.get<Sequelize>(TYPES.Sequelize);
+        return new SequelizeMessageStore(sequelize);
+    })
     .inSingletonScope();
 
 export default container;

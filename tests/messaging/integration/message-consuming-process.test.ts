@@ -2,9 +2,9 @@ import { Message } from 'joka/core';
 import { createNullMessages, createRedisClient } from 'joka/test-helpers';
 import {
     AllMessageTypes,
+    MessageConsumingProcess,
     RedisStreamMessageConsumerGroup,
 } from 'joka/messaging';
-import { MessageConsumingProcess } from '../../../src/messaging/message-consuming-process';
 
 const messageConsumerSpies = [...Array(5).keys()].map((i) => ({
     name: `spy-${i}`,
