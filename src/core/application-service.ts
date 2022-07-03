@@ -1,6 +1,6 @@
 import Ajv, { ErrorObject, JSONSchemaType, ValidateFunction } from 'ajv';
 
-import { Class } from 'joka/utils';
+import { Class } from '../utils';
 
 import { Command, Message } from './message';
 import { UnitOfWork } from './unit-of-work';

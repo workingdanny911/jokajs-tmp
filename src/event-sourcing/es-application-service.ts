@@ -4,8 +4,8 @@ import {
     Command,
     Event,
     UnitOfWork,
-} from 'joka/core';
-import { Class } from 'joka/utils';
+} from '../core';
+import { Class } from '../utils';
 
 import { MDBMessageStore, MDBRawMessage } from './mdb-message-store';
 

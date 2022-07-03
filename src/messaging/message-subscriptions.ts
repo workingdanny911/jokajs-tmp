@@ -1,4 +1,4 @@
-import { Message } from 'joka/core';
+import { Message } from '../core';
 
 import { MessageConsumer } from './message-consumer';
 

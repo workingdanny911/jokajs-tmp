@@ -1,6 +1,6 @@
 import { Message } from 'joka/core';
 import { MessageWithRId, RedisStreamMessagePublisher } from 'joka/messaging';
-import { createNullMessages, createRedisClient } from 'joka/test-helpers';
+import { createNullMessages, createRedisClient } from 'joka/testing';
 
 const STREAM = '_test-stream__redis-stream-message-publisher';
 describe('RedisStreamMessagePublisher', () => {

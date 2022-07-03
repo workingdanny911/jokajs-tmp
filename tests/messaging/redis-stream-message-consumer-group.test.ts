@@ -5,7 +5,7 @@ import {
     MessageWithRId,
     RedisStreamMessageConsumerGroup,
 } from 'joka/messaging';
-import { createNullMessages, createRedisClient } from 'joka/test-helpers';
+import { createNullMessages, createRedisClient } from 'joka/testing';
 
 const STREAM = '_test-stream__redis-stream-message-consumer-group';
 const GROUP = '_test-group__redis-stream-message-consumer-group';

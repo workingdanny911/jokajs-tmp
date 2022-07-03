@@ -1,5 +1,5 @@
-import { Message } from 'joka/core';
-import { RedisClient } from 'joka/utils';
+import { Message } from '../core';
+import { RedisClient } from '../utils';
 import { MessageWithRId, RedisStreamSerializer } from './helpers';
 
 export class RedisStreamMessagePublisher {

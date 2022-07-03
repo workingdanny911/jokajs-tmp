@@ -1,4 +1,4 @@
-import { ErrorWithDetails } from 'joka/utils';
+import { ErrorWithDetails } from '../utils';
 
 import { Command, Event, Message } from './message';
 

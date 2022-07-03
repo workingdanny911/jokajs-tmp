@@ -4,7 +4,7 @@ import {
     MessageConsumer,
     MessageSubscriptions,
 } from 'joka/messaging';
-import { createNullMessage } from 'joka/test-helpers';
+import { createNullMessage } from 'joka/testing';
 
 class FooMessage extends Message {}
 

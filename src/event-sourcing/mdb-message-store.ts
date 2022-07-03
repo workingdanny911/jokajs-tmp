@@ -1,6 +1,6 @@
 import pg from 'pg';
 
-import { Message } from 'joka/core';
+import { Message } from '../core';
 
 export interface MDBRawMessage<
     TMetadata extends {

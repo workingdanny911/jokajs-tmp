@@ -1,6 +1,6 @@
 import { Message } from 'joka/core';
 import { SequelizeMessageStore } from 'joka/messaging';
-import { createNullMessages, sequelizeForTest } from 'joka/test-helpers';
+import { createNullMessages, sequelizeForTest } from 'joka/testing';
 
 describe('SequelizeMessageStore', () => {
     const sequelize = sequelizeForTest;

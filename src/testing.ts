@@ -1,11 +1,11 @@
 import pg from 'pg';
 import { Sequelize } from 'sequelize';
 
-import { Aggregate, Event, Message } from 'joka/core';
-import config from 'joka/config';
-import { RedisClient } from 'joka/utils';
-import { container, DEP_TYPES } from 'joka/dependency-injection';
-import { MDBMessageStore } from 'joka/event-sourcing';
+import { Aggregate, Event, Message } from './core';
+import config from './config';
+import { RedisClient } from './utils';
+import { container, DEP_TYPES } from './dependency-injection';
+import { MDBMessageStore } from './event-sourcing';
 
 export async function* pgClientForTest() {
     const client = new pg.Client(config.TEST.MESSAGE_STORE);

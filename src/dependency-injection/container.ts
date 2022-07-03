@@ -1,16 +1,19 @@
 import 'reflect-metadata';
 import cls from 'cls-hooked';
-import {Container} from 'inversify';
-import {Sequelize} from 'sequelize';
-import {createClient} from 'redis';
+import { Container } from 'inversify';
+import { Sequelize } from 'sequelize';
+import { createClient } from 'redis';
 
-import config from 'joka/config';
-import {SequelizeUnitOfWork, UnitOfWork} from 'joka/core';
-import {RedisClient} from 'joka/utils';
-import {MessageStore, SequelizeMessageStore, SequelizeMessageTracker,} from 'joka/messaging';
-
+import config from '../config';
+import { SequelizeUnitOfWork, UnitOfWork } from '../core';
+import { RedisClient } from '../utils';
+import {
+    MessageStore,
+    MessageTracker,
+    SequelizeMessageStore,
+    SequelizeMessageTracker,
+} from '../messaging';
 import TYPES from './dependecies';
-import {MessageTracker} from "joka/messaging/message-tracker";
 
 const container = new Container();
 
@@ -19,10 +22,14 @@ Sequelize.useCLS(sequelizeNamespace);
 
 const sequelize = new Sequelize(config.DATABASE);
 
-container.bind<MessageStore>('MessageStore').toDynamicValue(() => new SequelizeMessageStore(sequelize));
+container
+    .bind<MessageStore>('MessageStore')
+    .toDynamicValue(() => new SequelizeMessageStore(sequelize));
 SequelizeMessageStore.defineModel(sequelize);
 
-container.bind<MessageTracker>('MessageTracker').toDynamicValue(() => new SequelizeMessageTracker(sequelize));
+container
+    .bind<MessageTracker>('MessageTracker')
+    .toDynamicValue(() => new SequelizeMessageTracker(sequelize));
 SequelizeMessageTracker.defineModel(sequelize);
 
 container.bind<Sequelize>(TYPES.Sequelize).toConstantValue(sequelize);

@@ -1,5 +1,5 @@
 import { Message } from 'joka/core';
-import { createNullMessages, createRedisClient } from 'joka/test-helpers';
+import { createNullMessages, createRedisClient } from 'joka/testing';
 import {
     AllMessageTypes,
     MessageConsumingProcess,

@@ -1,6 +1,6 @@
 import { UnitOfWork } from 'joka/core';
 import { MDBMessageStore } from 'joka/event-sourcing';
-import { mdbMessageStoreForTest, patchPrivateMethod } from 'joka/test-helpers';
+import { mdbMessageStoreForTest, patchPrivateMethod } from 'joka/testing';
 import {
     Counter,
     CounterApplicationService,

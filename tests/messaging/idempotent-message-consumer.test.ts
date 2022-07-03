@@ -3,7 +3,7 @@ import {
     IdempotentMessageConsumer,
     SequelizeMessageTracker,
 } from 'joka/messaging';
-import { sequelizeForTest } from 'joka/test-helpers';
+import { sequelizeForTest } from 'joka/testing';
 
 class IdempotentMessageConsumerSpy extends IdempotentMessageConsumer {
     name = 'dummy';

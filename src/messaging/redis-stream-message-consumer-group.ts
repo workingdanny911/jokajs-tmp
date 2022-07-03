@@ -1,5 +1,5 @@
-import { Message } from 'joka/core';
-import { PromiseSettledResult, RedisClient } from 'joka/utils';
+import { Message } from '../core';
+import { PromiseSettledResult, RedisClient } from '../utils';
 
 import { MessageSubscriptions } from './message-subscriptions';
 import { MessageConsumer } from './message-consumer';

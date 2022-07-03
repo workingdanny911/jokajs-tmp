@@ -1,8 +1,8 @@
 {
     "name": "joka",
-    "version": "1.0.0",
-    "description": "",
-    "author": "Team Houston",
+    "version": "0.1.0",
+    "description": "A minimal DDD framework for Node.js",
+    "author": "Danny@work",
     "license": "ISC",
     "exports": {
         ".": "./dist/src/index.js",
@@ -11,7 +11,7 @@
         "./event-sourcing": "./dist/src/event-sourcing/index.js",
         "./messaging": "./dist/src/messaging/index.js",
         "./config": "./dist/src/config.js",
-        "./test-helpers": "./dist/src/test-helpers.js",
+        "./testing": "./dist/src/testing.js",
         "./utils": "./dist/src/utils.js",
         "./package.json": "./package.json"
     },
@@ -35,8 +35,8 @@
             "config": [
                 "./dist/src/config.d.ts"
             ],
-            "test-helpers": [
-                "./dist/src/test-helpers.d.ts"
+            "testing": [
+                "./dist/src/testing.d.ts"
             ],
             "utils": [
                 "./dist/src/utils.d.ts"

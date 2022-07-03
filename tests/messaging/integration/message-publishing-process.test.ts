@@ -9,7 +9,7 @@ import {
     createNullMessages,
     createRedisClient,
     sequelizeForTest,
-} from 'joka/test-helpers';
+} from 'joka/testing';
 
 const REDIS_MESSAGE_STREAM = '_test-stream-run-message-publisher';
 describe('MessagePublishingProcess', () => {

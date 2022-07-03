@@ -8,6 +8,7 @@ module.exports = {
     },
     testRegex: '\\.test\\.ts$',
     moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
+    testPathIgnorePatterns: ['node_modules', 'src'],
     globals: {
         'ts-jest': {
             diagnostics: {
@@ -27,7 +28,7 @@ module.exports = {
 
         // single file modules
         'joka/config$': '<rootDir>/src/config.ts',
-        'joka/test-helpers$': '<rootDir>/src/test-helpers.ts',
+        'joka/testing': '<rootDir>/src/testing.ts',
         'joka/utils$': '<rootDir>/src/utils.ts',
     },
 };

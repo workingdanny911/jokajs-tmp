@@ -1,5 +1,5 @@
 import { RedisClient, RedisOutOfProcessInstanceController } from 'joka/utils';
-import { createRedisClient } from 'joka/test-helpers';
+import { createRedisClient } from 'joka/testing';
 import { container } from 'joka/dependency-injection';
 
 const NAME = '_test_redis-out-of-process-instance-reservation';

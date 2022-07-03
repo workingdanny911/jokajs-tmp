@@ -2,7 +2,7 @@ import pg from 'pg';
 
 import { Message } from 'joka/core';
 import { MDBMessageStore, MDBRawMessage } from 'joka/event-sourcing';
-import { mdbMessageStoreForTest, pgClientForTest } from 'joka/test-helpers';
+import { mdbMessageStoreForTest, pgClientForTest } from 'joka/testing';
 
 class SomeMessage extends Message<{ value: string }> {}
 

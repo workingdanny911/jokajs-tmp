@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 
 import { AggregateError } from 'joka/core';
-import { expectEvents } from 'joka/test-helpers';
+import { expectEvents } from 'joka/testing';
 
 import { Counter, CounterCreated, CounterIncremented } from './fixtures';
 
