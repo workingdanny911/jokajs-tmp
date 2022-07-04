@@ -14,11 +14,13 @@ export class SequelizeMessageStore implements MessageStore {
     constructor(private readonly sequelize: Sequelize) {}
 
     public async append(messages: Message[]) {
+        const now = new Date();
         const messagesToSave = messages.map((message) => ({
             messageId: message.id,
             messageHeader: message.header,
             messageData: message.data,
             isPublished: false,
+            createdAt: now,
         }));
         await OutgoingMessageDM.bulkCreate(messagesToSave);
     }
@@ -34,6 +36,7 @@ export class SequelizeMessageStore implements MessageStore {
         const messageDMs = await OutgoingMessageDM.findAll({
             where: { isPublished: false },
             limit: chunkSize,
+            order: [['index', 'ASC']],
         });
 
         return messageDMs.map((messageDM) => {
@@ -64,6 +67,7 @@ export class SequelizeMessageStore implements MessageStore {
                     modelName: model.modelName,
                     tableName: model.tableName,
                     sequelize,
+                    ...model.extraOptions,
                 }
             );
         }
@@ -104,18 +108,25 @@ class OutgoingMessageDM extends Model<
         },
         messageHeader: {
             type: DataTypes.JSON,
+            field: 'message_header',
         },
         messageData: {
             type: DataTypes.JSON,
+            field: 'message_data',
         },
         isPublished: {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
+            field: 'is_published',
         },
         createdAt: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
             field: 'created_at',
         },
+    };
+
+    static extraOptions = {
+        timestamps: false,
     };
 }

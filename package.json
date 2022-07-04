@@ -10,41 +10,13 @@
     ],
     "license": "ISC",
     "exports": {
-        ".": "./dist/src/index.js",
-        "./core": "./dist/src/core/index.js",
-        "./dependency-injection": "./dist/src/dependency-injection/index.js",
-        "./event-sourcing": "./dist/src/event-sourcing/index.js",
-        "./messaging": "./dist/src/messaging/index.js",
-        "./config": "./dist/src/config.js",
-        "./testing": "./dist/src/testing.js",
-        "./utils": "./dist/src/utils.js",
+        "./*": "./dist/src/*/index.js",
         "./package.json": "./package.json"
     },
     "typesVersions": {
         "*": {
-            "index.d.ts": [
-                "./dist/src/index.d.ts"
-            ],
-            "core": [
-                "./dist/src/core/index.d.ts"
-            ],
-            "dependency-injection": [
-                "./dist/src/dependency-injection/index.d.ts"
-            ],
-            "event-sourcing": [
-                "./dist/src/event-sourcing/index.d.ts"
-            ],
-            "messaging": [
-                "./dist/src/messaging/index.d.ts"
-            ],
-            "config": [
-                "./dist/src/config.d.ts"
-            ],
-            "testing": [
-                "./dist/src/testing.d.ts"
-            ],
-            "utils": [
-                "./dist/src/utils.d.ts"
+            "*": [
+                "./dist/src/*/index.d.ts"
             ]
         }
     },

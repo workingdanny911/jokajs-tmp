@@ -1,9 +1,9 @@
 import { Message } from '../core';
+import { PromiseSettledResult, RedisClient } from '../utils';
 
 import { MessageSubscriptions } from './message-subscriptions';
 import { MessageConsumer } from './message-consumer';
 import { MessageWithRId, RedisStreamSerializer } from './helpers';
-import {PromiseSettledResult, RedisClient} from "../utils/promiseSettledResult";
 
 interface RedisStreamMessageConsumerGroupOptions {
     group: string;

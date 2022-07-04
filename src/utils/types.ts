@@ -1,4 +1,4 @@
-import {createClient} from "redis";
+import { createClient } from 'redis';
 
 export type Class<T> = { new (...args: any[]): T };
 

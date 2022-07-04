@@ -1,6 +1,6 @@
 import { Message } from '../core';
+import { RedisClient } from '../utils';
 import { MessageWithRId, RedisStreamSerializer } from './helpers';
-import {RedisClient} from "../utils/promiseSettledResult";
 
 export class RedisStreamMessagePublisher {
     constructor(private stream: string, private redis: RedisClient) {}

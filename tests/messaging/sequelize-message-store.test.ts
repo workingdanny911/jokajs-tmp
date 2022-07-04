@@ -1,8 +1,8 @@
-import { Sequelize } from 'sequelize';
+import {Sequelize} from 'sequelize';
 
-import { Message } from '@joka/core';
-import { SequelizeMessageStore } from '@joka/messaging';
-import { createNullMessages } from '@joka/testing';
+import {Message} from '@joka/core';
+import {SequelizeMessageStore} from '@joka/messaging';
+import {createNullMessages} from '@joka/testing';
 
 import container from './container';
 
@@ -94,5 +94,15 @@ describe('SequelizeMessageStore', () => {
         // message is in the store and published
         await messageStore.markAsPublished([messageId]);
         await expect(messageStore.isPublished(messageId)).resolves.toBe(true);
+    });
+
+    test('append and fetch', async () => {
+        await messageStore.append(messages);
+
+        const insertedMessages = await messageStore.getUnpublishedMessages(
+            messages.length
+        );
+
+        expect(insertedMessages).toEqual(messages);
     });
 });

@@ -47,6 +47,7 @@ export class SequelizeMessageTracker implements MessageTracker {
                     modelName: model.modelName,
                     tableName: model.tableName,
                     sequelize,
+                    ...model.extraOptions,
                 }
             );
         }
@@ -78,7 +79,11 @@ class MessageByConsumerDM extends Model<
         },
         consumedAt: {
             type: DataTypes.DATE,
-            field: 'consumedAt',
+            field: 'consumed_at',
         },
+    };
+
+    static extraOptions = {
+        timestamps: false,
     };
 }

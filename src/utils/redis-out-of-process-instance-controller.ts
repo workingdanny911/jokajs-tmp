@@ -1,4 +1,4 @@
-import {RedisClient} from "./promiseSettledResult";
+import {RedisClient} from "./types";
 
 export class RedisOutOfProcessInstanceController {
     public static readonly channelNamePrefix =
