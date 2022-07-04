@@ -1,10 +1,13 @@
-import { Message } from 'joka/core';
-import { MessageWithRId, RedisStreamMessagePublisher } from 'joka/messaging';
-import { createNullMessages, createRedisClient } from 'joka/testing';
+import { Message } from '@joka/core';
+import { RedisClient } from '@joka/utils';
+import { MessageWithRId, RedisStreamMessagePublisher } from '@joka/messaging';
+import { createNullMessages } from '@joka/testing';
+
+import container from './container';
 
 const STREAM = '_test-stream__redis-stream-message-publisher';
 describe('RedisStreamMessagePublisher', () => {
-    const redis = createRedisClient();
+    const redis = container.get<RedisClient>('RedisClient');
     const publisher = new RedisStreamMessagePublisher(STREAM, redis);
 
     beforeAll(async () => {
@@ -13,9 +16,7 @@ describe('RedisStreamMessagePublisher', () => {
     beforeEach(async () => {
         await redis.del(STREAM);
     });
-    afterAll(async () => {
-        await redis.quit();
-    });
+    afterAll(container.unbindAllAsync);
 
     test('publishing - with empty messages', async () => {
         const result = await publisher.publish([]);

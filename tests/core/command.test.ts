@@ -1,6 +1,6 @@
 import Ajv from 'ajv';
 
-import { Command, createCommandFactoryWithValidateFunction } from 'joka/core';
+import { Command, createCommandFactoryWithValidateFunction } from '@joka/core';
 
 class FooCommand extends Command<{ foo: string }> {}
 

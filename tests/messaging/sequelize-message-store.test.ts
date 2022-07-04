@@ -1,9 +1,13 @@
-import { Message } from 'joka/core';
-import { SequelizeMessageStore } from 'joka/messaging';
-import { createNullMessages, sequelizeForTest } from 'joka/testing';
+import { Sequelize } from 'sequelize';
+
+import { Message } from '@joka/core';
+import { SequelizeMessageStore } from '@joka/messaging';
+import { createNullMessages } from '@joka/testing';
+
+import container from './container';
 
 describe('SequelizeMessageStore', () => {
-    const sequelize = sequelizeForTest;
+    const sequelize = container.get<Sequelize>('Sequelize');
     SequelizeMessageStore.defineModel(sequelize);
     const model = SequelizeMessageStore.model;
 
@@ -17,6 +21,8 @@ describe('SequelizeMessageStore', () => {
     beforeEach(async () => {
         await model.truncate();
     });
+
+    afterAll(container.unbindAllAsync);
 
     test('appending messages', async () => {
         await messageStore.append(messages);

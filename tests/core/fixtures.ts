@@ -4,8 +4,7 @@ import {
     Command,
     createCommandFactory,
     Event,
-} from 'joka/core';
-import { ESApplicationService } from 'joka/event-sourcing';
+} from '@joka/core';
 
 export type CounterId = number;
 
@@ -85,34 +84,6 @@ export const makeIncrementCounterCommand = createCommandFactory(
         required: ['counterId', 'by'],
     }
 );
-
-export class CounterApplicationService extends ESApplicationService<Counter> {
-    aggregateClass = Counter;
-    events = {
-        CounterCreated,
-        CounterIncremented,
-    };
-
-    async executeCreateCounter(command: CreateCounter) {
-        const newCounter = new Counter({
-            id: counterId++,
-            data: command.data,
-            causationCommandId: command.id,
-        });
-        await this.saveAggregate(newCounter);
-        return { id: newCounter.id, value: newCounter.value };
-    }
-
-    async executeIncrementCounter(command: IncrementCounter) {
-        const counter = await this.loadAggregate(
-            command.data.counterId,
-            command.id
-        );
-        counter.increment(command.data.by);
-        await this.saveAggregate(counter);
-        return { id: counter.id, value: counter.value };
-    }
-}
 
 export function resetCounterId() {
     counterId = 1;

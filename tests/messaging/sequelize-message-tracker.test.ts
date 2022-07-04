@@ -1,13 +1,12 @@
 import { v4 as uuid } from 'uuid';
 import { Sequelize } from 'sequelize';
 
-import { SequelizeMessageTracker } from 'joka/messaging';
+import { SequelizeMessageTracker } from '@joka/messaging';
+
+import container from './container';
 
 describe('SequelizeMessageTracker', () => {
-    const sequelize = new Sequelize({
-        dialect: 'sqlite',
-        storage: ':memory:',
-    });
+    const sequelize = container.get<Sequelize>('Sequelize');
     SequelizeMessageTracker.defineModel(sequelize);
     const model = SequelizeMessageTracker.model;
 
@@ -23,6 +22,8 @@ describe('SequelizeMessageTracker', () => {
     beforeEach(async () => {
         await model.truncate();
     });
+
+    afterAll(container.unbindAllAsync);
 
     test('saving consumption', async () => {
         await tracker.saveConsumption(consumerName, messageId);

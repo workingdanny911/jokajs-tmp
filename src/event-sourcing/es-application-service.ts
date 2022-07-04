@@ -7,7 +7,7 @@ import {
 } from '../core';
 import { Class } from '../utils';
 
-import { MDBMessageStore, MDBRawMessage } from './mdb-message-store';
+import { MDBEventStore, MDBRawEvent } from './mdb-event-store';
 
 export abstract class ESApplicationService<
     TAggregate extends Aggregate<any, unknown>
@@ -17,14 +17,14 @@ export abstract class ESApplicationService<
         [eventType: string]: { new (...args: any[]): Event };
     };
 
-    messageStore: MDBMessageStore;
+    messageStore: MDBEventStore;
 
     constructor({
         unitOfWork,
         messageStore,
     }: {
         unitOfWork: UnitOfWork;
-        messageStore: MDBMessageStore;
+        messageStore: MDBEventStore;
     }) {
         super({ unitOfWork });
         this.messageStore = messageStore;
@@ -53,12 +53,12 @@ export abstract class ESApplicationService<
         return `${this.aggregateClass.name}-${id}`;
     }
 
-    deserializeRawEvent(raw: MDBRawMessage) {
-        return MDBMessageStore.deserializeRawMessage(raw, this.events);
+    deserializeRawEvent(raw: MDBRawEvent) {
+        return MDBEventStore.deserializeRawMDBEvent(raw);
     }
 
     async saveAggregate(aggregate: TAggregate) {
-        await this.messageStore.appendMessages(
+        await this.messageStore.appendEvents(
             this.getStreamName(aggregate.id),
             aggregate.version,
             aggregate.events

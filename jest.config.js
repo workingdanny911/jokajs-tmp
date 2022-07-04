@@ -19,16 +19,6 @@ module.exports = {
     detectOpenHandles: true,
     forceExit: true,
     moduleNameMapper: {
-        joka$: '<rootDir>/src/index.ts',
-        'joka/core$': '<rootDir>/src/core/index.ts',
-        'joka/dependency-injection$':
-            '<rootDir>/src/dependency-injection/index.ts',
-        'joka/event-sourcing$': '<rootDir>/src/event-sourcing/index.ts',
-        'joka/messaging$': '<rootDir>/src/messaging/index.ts',
-
-        // single file modules
-        'joka/config$': '<rootDir>/src/config.ts',
-        'joka/testing': '<rootDir>/src/testing.ts',
-        'joka/utils$': '<rootDir>/src/utils.ts',
+        '@joka/(.*)$': '<rootDir>/src/$1/index.ts',
     },
 };

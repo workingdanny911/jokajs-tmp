@@ -1,10 +1,12 @@
-import { Message } from 'joka/core';
-import { createNullMessages, createRedisClient } from 'joka/testing';
+import { Message } from '@joka/core';
+import { createNullMessages } from '@joka/testing';
 import {
     AllMessageTypes,
     MessageConsumingProcess,
     RedisStreamMessageConsumerGroup,
-} from 'joka/messaging';
+} from '@joka/messaging';
+import { RedisClient } from '@joka/utils';
+import container from '../container';
 
 const messageConsumerSpies = [...Array(5).keys()].map((i) => ({
     name: `spy-${i}`,
@@ -18,7 +20,7 @@ const GROUP = '_test-message-consuming-process__group';
 const STREAM = '_test-message-consuming-process__stream';
 const CONSUMER = 'consumer';
 describe('MessageConsumingProcess', () => {
-    const redis = createRedisClient();
+    const redis = container.get<RedisClient>('RedisClient');
     const consumerGroup = new RedisStreamMessageConsumerGroup(
         {
             group: GROUP,
@@ -45,6 +47,8 @@ describe('MessageConsumingProcess', () => {
         await redis.connect();
         await consumerGroup.create(true);
     });
+
+    afterAll(container.unbindAllAsync);
 
     test('consuming messages', async () => {
         const messages = createNullMessages(10);

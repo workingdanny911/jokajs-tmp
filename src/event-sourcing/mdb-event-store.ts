@@ -1,8 +1,8 @@
 import pg from 'pg';
 
-import { Message } from '../core';
+import { Message } from '@joka/core';
 
-export interface MDBRawMessage<
+export interface MDBRawEvent<
     TMetadata extends {
         occurredAt: string;
         causationMessageId?: Message['id'];
@@ -20,7 +20,7 @@ export interface MDBRawMessage<
  * Event store implementation using PostgreSQL.
  * https://github.com/message-db/message-db
  */
-export class MDBMessageStore {
+export class MDBEventStore {
     private connection: pg.Client;
 
     constructor(connection: pg.Client) {
@@ -28,15 +28,15 @@ export class MDBMessageStore {
     }
 
     // TODO: query positions at once and match them
-    async appendMessages(
+    async appendEvents(
         streamName: string,
         lastPosition: number,
-        messages: Message[]
+        events: Message[]
     ) {
         await this.startTransaction();
 
         try {
-            await this.commitMessages(streamName, lastPosition, messages);
+            await this.commitEvents(streamName, lastPosition, events);
         } catch (e) {
             await this.rollbackTransaction();
             throw e;
@@ -49,15 +49,15 @@ export class MDBMessageStore {
         await this.connection.query('BEGIN');
     }
 
-    protected async commitMessages(
+    protected async commitEvents(
         streamName: string,
         lastPosition: number,
-        messages: Message[]
+        events: Message[]
     ) {
-        for (const message of messages) {
-            await this.writeMessage(message, streamName, lastPosition++);
-            [message.streamPosition, message.globalPosition] =
-                await this.getMessagePositions(message);
+        for (const event of events) {
+            await this.insertEvent(event, streamName, lastPosition++);
+            [event.streamPosition, event.globalPosition] =
+                await this.getEventPositions(event);
         }
     }
 
@@ -69,8 +69,8 @@ export class MDBMessageStore {
         await this.connection.query('COMMIT');
     }
 
-    private async writeMessage(
-        message: Message,
+    private async insertEvent(
+        event: Message,
         streamName: string,
         lastPosition: number
     ) {
@@ -78,13 +78,13 @@ export class MDBMessageStore {
             await this.connection.query(
                 'SELECT write_message($1, $2, $3, $4, $5, $6)',
                 [
-                    message.id,
+                    event.id,
                     streamName,
-                    message.type,
-                    message.data,
+                    event.type,
+                    event.data,
                     {
-                        occurredAt: message.occurredAt,
-                        causationMessageId: message.causationMessageId,
+                        occurredAt: event.occurredAt,
+                        causationMessageId: event.causationMessageId,
                     },
                     lastPosition,
                 ]
@@ -106,18 +106,18 @@ export class MDBMessageStore {
         }
     }
 
-    private async getMessagePositions(message: Message) {
+    private async getEventPositions(event: Message) {
         const query = await this.connection.query(
             `SELECT
             position::int as stream_position,
             global_position::int as global_position
             FROM messages WHERE id = $1`,
-            [message.id]
+            [event.id]
         );
         const position = query.rows[0];
         if (!position) {
             throw new Error(
-                `Message with id '${message.id}' not found in database`
+                `Event with id '${event.id}' not found in database`
             );
         }
 
@@ -128,7 +128,7 @@ export class MDBMessageStore {
         TMetadata extends { occurredAt: string } = { occurredAt: string }
     >(
         streamName: string,
-        messageDeserializer?: (raw: MDBRawMessage<TMetadata>) => Message
+        eventDeserializer?: (raw: MDBRawEvent<TMetadata>) => Message
     ) {
         const { rows } = await this.connection.query(
             `SELECT 
@@ -139,13 +139,7 @@ export class MDBMessageStore {
             FROM get_stream_messages($1)`,
             [streamName]
         );
-        return messageDeserializer ? rows.map(messageDeserializer) : rows;
-    }
-
-    async getCategories(categoriesAndLastGlobalPositions: {
-        [category: string]: number;
-    }) {
-        return [];
+        return eventDeserializer ? rows.map(eventDeserializer) : rows;
     }
 
     async getLastStreamPosition(streamName: string) {
@@ -169,21 +163,14 @@ export class MDBMessageStore {
         await this.connection.query('TRUNCATE messages RESTART IDENTITY');
     }
 
-    public static deserializeRawMessage(
-        raw: MDBRawMessage,
-        messages: { [eventType: string]: { new (...args: any[]): Message } }
-    ) {
-        const messageClass = messages[raw.type];
-        if (!messageClass || messageClass.name !== raw.type) {
-            throw new Error(`Event '${raw.type}' not found.`);
-        }
-
-        return new messageClass(raw.data, {
+    public static deserializeRawMDBEvent(raw: MDBRawEvent) {
+        return new Message<any>(raw.data, {
             id: raw.id,
+            type: raw.type,
+            occurredAt: new Date(raw.metadata.occurredAt),
+            causationMessageId: raw.metadata.causationMessageId,
             streamPosition: raw.stream_position,
             globalPosition: raw.global_position,
-            occurredAt: new Date(raw.metadata.occurredAt),
-            causationId: raw.metadata.causationMessageId,
         });
     }
 }

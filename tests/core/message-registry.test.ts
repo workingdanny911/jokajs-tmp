@@ -1,4 +1,4 @@
-import { Message, MessageRegistry } from 'joka/core';
+import { Message, MessageRegistry } from '@joka/core';
 
 describe('MessageRegistry', () => {
     test('registers message class', () => {

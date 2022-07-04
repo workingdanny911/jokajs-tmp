@@ -1,18 +1,16 @@
-import { Message } from 'joka/core';
-import { RedisClient } from 'joka/utils';
-import {
-    MessageConsumer,
-    MessageWithRId,
-    RedisStreamMessageConsumerGroup,
-} from 'joka/messaging';
-import { createNullMessages, createRedisClient } from 'joka/testing';
+import {Message} from '@joka/core';
+import {RedisClient} from '@joka/utils';
+import {MessageConsumer, MessageWithRId, RedisStreamMessageConsumerGroup,} from '@joka/messaging';
+import {createNullMessages} from '@joka/testing';
+
+import container from './container';
 
 const STREAM = '_test-stream__redis-stream-message-consumer-group';
 const GROUP = '_test-group__redis-stream-message-consumer-group';
 const CONSUMER = 'consumer';
 
 describe('RedisStreamMessageConsumerGroup', () => {
-    const redis = createRedisClient();
+    const redis = container.get<RedisClient>('RedisClient');
     const consumerGroup = new RedisStreamMessageConsumerGroup(
         {
             group: GROUP,
@@ -34,6 +32,7 @@ describe('RedisStreamMessageConsumerGroup', () => {
     beforeAll(async () => {
         await redis.connect();
     });
+    afterAll(container.unbindAllAsync);
 
     async function appendMessages(
         messages: Message[],
@@ -108,7 +107,7 @@ describe('RedisStreamMessageConsumerGroup', () => {
 
     test('fetching new messages - with block for', async () => {
         await clearMessages();
-        const redis2 = createRedisClient();
+        const redis2 = container.get<RedisClient>('RedisClient');
         await redis2.connect();
         const fetchMessagesPromise = consumerGroup.fetchNewMessages({
             blockFor: 100,

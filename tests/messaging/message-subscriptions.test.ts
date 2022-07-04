@@ -1,14 +1,10 @@
-import { Message } from 'joka/core';
+import { Message } from '@joka/core';
 import {
     AllMessageTypes,
     MessageConsumer,
     MessageSubscriptions,
-} from 'joka/messaging';
-import { createNullMessage } from 'joka/testing';
-
-class FooMessage extends Message {}
-
-class BarMessage extends Message {}
+} from '@joka/messaging';
+import { createNullMessage } from '@joka/testing';
 
 describe('MessageSubscriptions', () => {
     test('notifying', async () => {
@@ -97,20 +93,20 @@ describe('MessageSubscriptions', () => {
         const fooConsumer = {
             name: 'foo',
             subjects: new Set(['FooMessage']),
-            consume: jest.fn(async (message: FooMessage) => {
+            consume: jest.fn(async () => {
                 return;
             }),
-        } as MessageConsumer<FooMessage>;
+        } as MessageConsumer;
         const barConsumer = {
             name: 'bar',
             subjects: new Set(['BarMessage']),
-            consume: jest.fn(async (message: BarMessage) => {
+            consume: jest.fn(async () => {
                 return;
             }),
-        } as MessageConsumer<BarMessage>;
+        } as MessageConsumer;
 
-        const fooMessage = new FooMessage({});
-        const barMessage = new BarMessage({});
+        const fooMessage = new Message<null>(null, { type: 'FooMessage' });
+        const barMessage = new Message<null>(null, { type: 'BarMessage' });
         const subscriptions = new MessageSubscriptions();
         subscriptions.subscribe(fooConsumer);
         subscriptions.subscribe(barConsumer);
@@ -138,8 +134,8 @@ describe('MessageSubscriptions', () => {
                 return;
             }),
         };
-        const fooMessage = new FooMessage({});
-        const barMessage = new BarMessage({});
+        const fooMessage = new Message<null>(null, { type: 'FooMessage' });
+        const barMessage = new Message<null>(null, { type: 'BarMessage' });
         const subscriptions = new MessageSubscriptions();
         subscriptions.subscribe(allConsumer);
 

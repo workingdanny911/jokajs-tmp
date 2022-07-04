@@ -1,29 +1,30 @@
-import { SequelizeUnitOfWork } from 'joka/core';
+import { Sequelize } from 'sequelize';
+
+import { SequelizeUnitOfWork } from '@joka/core';
 import {
     MessagePublishingProcess,
     RedisStreamMessagePublisher,
     RedisStreamSerializer,
     SequelizeMessageStore,
-} from 'joka/messaging';
-import {
-    createNullMessages,
-    createRedisClient,
-    sequelizeForTest,
-} from 'joka/testing';
+} from '@joka/messaging';
+import { createNullMessages } from '@joka/testing';
+import { RedisClient } from '@joka/utils';
+
+import container from '../container';
 
 const REDIS_MESSAGE_STREAM = '_test-stream-run-message-publisher';
 describe('MessagePublishingProcess', () => {
     // long running test
     jest.setTimeout(60000);
 
-    const sequelize = sequelizeForTest;
+    const sequelize = container.get<Sequelize>('Sequelize');
     const unitOfWork = new SequelizeUnitOfWork(sequelize);
 
     SequelizeMessageStore.defineModel(sequelize);
     const model = SequelizeMessageStore.model;
     const messageStore = new SequelizeMessageStore(sequelize);
 
-    const redis = createRedisClient();
+    const redis = container.get<RedisClient>('RedisClient');
     const publisher = new RedisStreamMessagePublisher(
         REDIS_MESSAGE_STREAM,
         redis
@@ -41,9 +42,7 @@ describe('MessagePublishingProcess', () => {
         await Promise.all([model.sync({ force: true }), redis.connect()]);
     });
 
-    afterAll(async () => {
-        await redis.quit();
-    });
+    afterAll(container.unbindAllAsync);
 
     beforeEach(async () => {
         await Promise.all([

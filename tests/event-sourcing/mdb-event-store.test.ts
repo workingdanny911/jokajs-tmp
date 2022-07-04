@@ -1,45 +1,29 @@
 import pg from 'pg';
 
-import { Message } from 'joka/core';
-import { MDBMessageStore, MDBRawMessage } from 'joka/event-sourcing';
-import { mdbMessageStoreForTest, pgClientForTest } from 'joka/testing';
+import { MDBEventStore } from '@joka/event-sourcing';
+import { createNullMessages } from '@joka/testing';
 
-class SomeMessage extends Message<{ value: string }> {}
+import container from './container';
 
-const deserialize = (raw: MDBRawMessage) =>
-    MDBMessageStore.deserializeRawMessage(raw, { SomeMessage });
-
-describe('MDBMessageStore', () => {
-    let clientGen: AsyncGenerator<pg.Client>;
-    let client: pg.Client;
-    let messageStoreGen: AsyncGenerator<MDBMessageStore>;
-    let messageStore: MDBMessageStore;
-    const messages = [
-        new SomeMessage({ value: 'foo' }),
-        new SomeMessage({ value: 'bar' }),
-        new SomeMessage({ value: 'quz' }),
-    ];
+describe('MDBEventStore', () => {
+    const client = container.get<pg.Client>('PGClient');
+    const messageStore = new MDBEventStore(client);
+    const messages = createNullMessages(10);
 
     beforeAll(async () => {
-        clientGen = pgClientForTest();
-        client = (await clientGen.next()).value;
-
-        messageStoreGen = mdbMessageStoreForTest(client);
-        messageStore = (await messageStoreGen.next()).value;
+        await client.connect();
     });
+    afterAll(container.unbindAllAsync);
 
     beforeEach(async () => {
         await messageStore.drop();
-    });
-
-    afterAll(async () => {
-        await clientGen.next();
     });
 
     test('returns empty list when stream does not exist', async () => {
         const nonExistingStream = await messageStore.getStream(
             'non-existing-stream-name-asdiuji'
         );
+
         expect(nonExistingStream.length).toBe(0);
     });
 
@@ -55,7 +39,7 @@ describe('MDBMessageStore', () => {
     test('appends messages to stream', async () => {
         const streamName = 'SomeStream-1';
 
-        await messageStore.appendMessages(streamName, -1, messages);
+        await messageStore.appendEvents(streamName, -1, messages);
 
         const { rows } = await client.query(
             `
@@ -67,27 +51,29 @@ describe('MDBMessageStore', () => {
                     FROM get_stream_messages($1)`,
             [streamName]
         );
-        expect(rows.map(deserialize)).toEqual(messages);
+        expect(rows.map(MDBEventStore.deserializeRawMDBEvent)).toEqual(
+            messages
+        );
     });
 
     test('throws error when provided last position is not equal to the last position of the stream', async () => {
         const streamName = 'SomeStream-2';
 
         await expect(async () => {
-            await messageStore.appendMessages(streamName, -2, messages);
+            await messageStore.appendEvents(streamName, -2, messages);
         }).rejects.toThrow(/.*invalid position.*/i);
 
-        await messageStore.appendMessages(streamName, -1, messages);
+        await messageStore.appendEvents(streamName, -1, messages);
 
         await expect(async () => {
-            await messageStore.appendMessages(streamName, -1, messages);
+            await messageStore.appendEvents(streamName, -1, messages);
         }).rejects.toThrow(/.*invalid position.*/i);
     });
 
     test('sets stream position and global position of message when appending', async () => {
         const streamName = 'SomeStream-3';
 
-        await messageStore.appendMessages(streamName, -1, messages);
+        await messageStore.appendEvents(streamName, -1, messages);
 
         let expectedStreamPosition = await messageStore.getLastStreamPosition(
             streamName
@@ -136,7 +122,7 @@ describe('MDBMessageStore', () => {
         });
 
         test('wraps append queries in a transaction', async () => {
-            await messageStore.appendMessages('SomeStream-1', -1, messages);
+            await messageStore.appendEvents('SomeStream-1', -1, messages);
             expect(transaction.hasBegun).toBe(true);
             expect(transaction.isCommitted).toBe(true);
             expect(transaction.isRolledBack).toBe(false);
@@ -145,7 +131,7 @@ describe('MDBMessageStore', () => {
         test('rolls back when aborted', async () => {
             try {
                 // appending messages with invalid last position MUST FAIL
-                await messageStore.appendMessages('SomeStream-1', -2, messages);
+                await messageStore.appendEvents('SomeStream-1', -2, messages);
             } catch (_) {
                 // do nothing
             }

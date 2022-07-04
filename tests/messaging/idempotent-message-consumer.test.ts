@@ -1,9 +1,12 @@
-import { Message, SequelizeUnitOfWork } from 'joka/core';
+import { Sequelize } from 'sequelize';
+
+import { Message, UnitOfWork } from '@joka/core';
 import {
     IdempotentMessageConsumer,
     SequelizeMessageTracker,
-} from 'joka/messaging';
-import { sequelizeForTest } from 'joka/testing';
+} from '@joka/messaging';
+
+import container from './container';
 
 class IdempotentMessageConsumerSpy extends IdempotentMessageConsumer {
     name = 'dummy';
@@ -19,7 +22,7 @@ class IdempotentMessageConsumerSpy extends IdempotentMessageConsumer {
 }
 
 describe('IdempotentMessageConsumer', () => {
-    const sequelize = sequelizeForTest;
+    const sequelize = container.get<Sequelize>('Sequelize');
     SequelizeMessageTracker.defineModel(sequelize);
     const model = SequelizeMessageTracker.model;
 
@@ -28,7 +31,7 @@ describe('IdempotentMessageConsumer', () => {
     function createConsumer() {
         return new IdempotentMessageConsumerSpy(
             tracker,
-            new SequelizeUnitOfWork(sequelize)
+            container.get<UnitOfWork>('UnitOfWork')
         );
     }
 
@@ -37,6 +40,8 @@ describe('IdempotentMessageConsumer', () => {
     beforeEach(async () => {
         await model.sync({ force: true });
     });
+
+    afterAll(container.unbindAllAsync);
 
     test('idempotency', async () => {
         const message = new Message<null>(null);

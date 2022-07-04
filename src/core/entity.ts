@@ -1,6 +1,5 @@
-import { ErrorWithDetails } from '../utils';
-
 import { Command, Event, Message } from './message';
+import {ErrorWithDetails} from "../utils/error";
 
 export type EntityId = number | string;
 

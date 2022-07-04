@@ -1,2 +1,2 @@
 export * from './es-application-service';
-export * from './mdb-message-store';
+export * from './mdb-event-store';

@@ -1,4 +1,4 @@
-import { ValueObject } from 'joka/core';
+import { ValueObject } from '@joka/core';
 
 class FooValueObject extends ValueObject {
     foo!: string;

@@ -1,22 +1,13 @@
-import * as sequelize from 'sequelize';
+import { Sequelize, Transaction } from 'sequelize';
 
-import { SequelizeUnitOfWork } from 'joka/core';
+import { SequelizeUnitOfWork } from '@joka/core';
+
+import container from '../container';
 
 describe('SequelizeUnitOfWork', () => {
-    const SEQUELIZE_OPTIONS = {
-        dialect: 'mariadb',
-        host: '127.0.0.1',
-        username: 'root',
-        password: '1234',
-        database: 'basalt_ac_test',
-    } as sequelize.Options;
-    let uow: SequelizeUnitOfWork;
+    const uow = new SequelizeUnitOfWork(container.get<Sequelize>('Sequelize'));
 
-    beforeEach(() => {
-        uow = new SequelizeUnitOfWork(
-            new sequelize.Sequelize(SEQUELIZE_OPTIONS)
-        );
-    });
+    beforeAll(container.unbindAllAsync);
 
     test('committing', async () => {
         let isCommitted = false;
@@ -30,7 +21,7 @@ describe('SequelizeUnitOfWork', () => {
     });
 
     test('rolling back', async () => {
-        let transaction_!: sequelize.Transaction;
+        let transaction_!: Transaction;
 
         async function doRollBack() {
             await uow.start(async (transaction) => {

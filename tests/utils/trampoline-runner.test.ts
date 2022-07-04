@@ -1,4 +1,4 @@
-import { TrampolineRunner } from 'joka/utils';
+import { TrampolineRunner } from '@joka/utils';
 
 describe('TrampolineRunner', () => {
     const execBodySpy = jest.spyOn(

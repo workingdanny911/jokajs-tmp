@@ -1,24 +1,33 @@
-import { RedisClient, RedisOutOfProcessInstanceController } from 'joka/utils';
-import { createRedisClient } from 'joka/testing';
-import { container } from 'joka/dependency-injection';
+import { RedisClient, RedisOutOfProcessInstanceController } from '@joka/utils';
+
+import container from '../container';
+
+const redisClients: RedisClient[] = [];
+
+async function createRedisClient() {
+    const redis = container.get<RedisClient>('RedisClient');
+    await redis.connect();
+    redisClients.push(redis);
+    return redis;
+}
 
 const NAME = '_test_redis-out-of-process-instance-reservation';
 describe('RedisOutOfProcessInstanceReservation', () => {
-    const redis = createRedisClient();
+    let redis: RedisClient;
     let runner: RedisOutOfProcessInstanceController;
 
+    beforeAll(async () => {
+        redis = await createRedisClient();
+    });
+    afterAll(container.unbindAllAsync);
+
     beforeEach(async () => {
-        await redis.connect();
         RedisOutOfProcessInstanceController.reset();
         runner = new RedisOutOfProcessInstanceController(NAME, redis);
     });
-
     afterEach(async () => {
-        const clients = container.get<RedisClient[]>('AllRedisClients');
         await Promise.all(
-            clients.map(
-                async (client) => client.isOpen && (await client.quit())
-            )
+            redisClients.map(async (client) => await client.pUnsubscribe('*'))
         );
     });
 
@@ -29,7 +38,7 @@ describe('RedisOutOfProcessInstanceReservation', () => {
     });
 
     test('reserving', async () => {
-        const redis2 = createRedisClient();
+        const redis2 = container.get<RedisClient>('RedisClient');
         await redis2.connect();
 
         await runner.reserve();
@@ -44,7 +53,7 @@ describe('RedisOutOfProcessInstanceReservation', () => {
     });
 
     test('unsubscribing when reserving fails', async () => {
-        const redis2 = createRedisClient();
+        const redis2 = container.get<RedisClient>('RedisClient');
         await redis2.connect();
         await redis2.subscribe(runner.channelName, () => {
             return;
