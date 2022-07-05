@@ -4,9 +4,9 @@ import { Message } from '../core';
 
 export interface MDBRawEvent<
     TMetadata extends {
-        occurredAt: string;
+        createdAt: string;
         causationMessageId?: Message['id'];
-    } = { occurredAt: string; causationMessageId?: Message['id'] }
+    } = { createdAt: string; causationMessageId?: Message['id'] }
 > {
     id: string;
     data: any;
@@ -83,7 +83,7 @@ export class MDBEventStore {
                     event.type,
                     event.data,
                     {
-                        occurredAt: event.occurredAt,
+                        createdAt: event.createdAt,
                         causationMessageId: event.causationMessageId,
                     },
                     lastPosition,
@@ -125,7 +125,7 @@ export class MDBEventStore {
     }
 
     async getStream<
-        TMetadata extends { occurredAt: string } = { occurredAt: string }
+        TMetadata extends { createdAt: string } = { createdAt: string }
     >(
         streamName: string,
         eventDeserializer?: (raw: MDBRawEvent<TMetadata>) => Message
@@ -167,7 +167,7 @@ export class MDBEventStore {
         return new Message<any>(raw.data, {
             id: raw.id,
             type: raw.type,
-            occurredAt: new Date(raw.metadata.occurredAt),
+            createdAt: new Date(raw.metadata.createdAt),
             causationMessageId: raw.metadata.causationMessageId,
             streamPosition: raw.stream_position,
             globalPosition: raw.global_position,

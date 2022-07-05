@@ -22,7 +22,15 @@ export interface AggregateConstructorArgs<
     events?: Event[];
 }
 
-export class AggregateError extends ErrorWithDetails {}
+export class AggregateError<TDetails = any> extends ErrorWithDetails<
+    TDetails & {
+        meta: {
+            aggregateName: string;
+            aggregateId: any;
+            causationCommandId?: string;
+        };
+    }
+> {}
 
 export abstract class Aggregate<
     TId extends EntityId,
@@ -65,7 +73,7 @@ export abstract class Aggregate<
         // noop
     }
 
-    protected applyEvents(events: Message[]) {
+    protected applyEvents(events: Event[]) {
         for (const event of events) {
             this.when(event);
         }
@@ -73,7 +81,7 @@ export abstract class Aggregate<
         this.version = lastEvent.streamPosition;
     }
 
-    protected when(event: Message) {
+    protected when(event: Event) {
         const applierName = `when${event.type}` as keyof this;
         const applier = this[applierName] as unknown as (
             data: Message['data']
@@ -84,17 +92,17 @@ export abstract class Aggregate<
         applier.bind(this)(event.data);
     }
 
-    protected raise<T extends Event = Event<TId, any>>(
-        eventClass: { new (...args: any[]): T },
-        data: Omit<T['data'], 'aggregateId'>
+    protected raise<TEvent extends Event = Event<TId, any>>(
+        eventType: TEvent['type'],
+        data: Omit<TEvent['data'], 'aggregateId'>
     ) {
-        const event = new eventClass(
+        const event = new Message<any>(
             {
                 aggregateId: this.id,
                 ...data,
             },
-            { causationMessageId: this.causationCommandId }
-        );
+            { type: eventType, causationMessageId: this.causationCommandId }
+        ) as Event;
         this.when(event);
         this.events.push(event);
     }
@@ -105,12 +113,12 @@ export abstract class Aggregate<
         this.events = [];
     }
 
-    protected throwError(
-        errorClass: { new (...args: any[]): AggregateError },
+    protected throwError<TDetails = any>(
+        errorType: string,
         message: string,
-        additionalDetails = {}
+        additionalDetails = {} as TDetails
     ) {
-        throw new errorClass(message, {
+        const error = new AggregateError<TDetails>(message, {
             ...additionalDetails,
             meta: {
                 aggregate: this.constructor.name,
@@ -118,5 +126,7 @@ export abstract class Aggregate<
                 causationCommandId: this.causationCommandId,
             },
         });
+        error.name = errorType;
+        throw error;
     }
 }

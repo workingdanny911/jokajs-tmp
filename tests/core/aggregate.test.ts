@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 
-import { AggregateError } from '@joka/core';
+import { AggregateError, Message } from '@joka/core';
 import { expectEvents } from '@joka/testing';
 
 import { Counter, CounterCreated, CounterIncremented } from './fixtures';
@@ -17,7 +17,7 @@ describe('Aggregate', () => {
         expect(counter.value).toBe(0);
 
         expectEvents<CounterCreated>(counter.events, {
-            eventType: CounterCreated.type,
+            type: 'CounterCreated',
             filter(e) {
                 return e.aggregateId === 1 && e.value === 0;
             },
@@ -36,7 +36,7 @@ describe('Aggregate', () => {
         counter.increment(1);
 
         expectEvents(counter.events, {
-            numberOfEvents: counter.events.length,
+            number: counter.events.length,
             filter(data, e) {
                 return e.causationMessageId === 'causation-command-id';
             },
@@ -44,14 +44,17 @@ describe('Aggregate', () => {
     });
 
     test('can be reconstituted from events', () => {
-        const counterCreated = new CounterCreated({ aggregateId: 1, value: 0 });
-        counterCreated.streamPosition = 0;
+        const counterCreated = Message.asType<CounterCreated>(
+            'CounterCreated',
+            { aggregateId: 1, value: 0 },
+            { streamPosition: 0 }
+        );
 
-        const counterIncremented = new CounterIncremented({
-            aggregateId: 1,
-            by: 5,
-        });
-        counterIncremented.streamPosition = 1;
+        const counterIncremented = Message.asType<CounterIncremented>(
+            'CounterIncremented',
+            { aggregateId: 1, by: 5 },
+            { streamPosition: 1 }
+        );
 
         const counter = new Counter({
             id: 1,

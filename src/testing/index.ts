@@ -1,45 +1,30 @@
 import { Sequelize } from 'sequelize';
 
-import { Aggregate, Event, Message } from '../core';
+import { Message } from '../core';
 
-export function expectEvents<TEvent extends Event<any, any> = Event<any, any>>(
-    events: Event<any, any>[],
+export function expectEvents<TMessage extends Message = Message<any>>(
+    messages: Message[],
     {
-        eventType,
-        numberOfEvents = 1,
+        type,
+        number = 1,
         filter,
     }: {
-        eventType?: TEvent['type'];
-        numberOfEvents?: number;
-        filter?: (eventData: TEvent['data'], event: Event<any, any>) => boolean;
+        type?: TMessage['type'];
+        number?: number;
+        filter?: (data: TMessage['data'], message: TMessage) => boolean;
     }
 ) {
-    if (eventType) {
-        events = events.filter((e) => e.type === eventType) as TEvent[];
+    if (type) {
+        messages = messages.filter((message) => message.type === type);
     }
 
     if (filter) {
-        events = events.filter((e) => filter(e.data, e));
+        messages = messages.filter((message) =>
+            filter(message.data as TMessage['data'], message as TMessage)
+        );
     }
 
-    expect(events).toHaveLength(numberOfEvents);
-}
-
-export function makeExpectEventsForAggregate(aggregate: Aggregate<any, any>) {
-    return <TEvent extends Event<any, any> = Event<any, any>>({
-        eventType,
-        numberOfEvents = 1,
-        filter,
-    }: {
-        eventType: TEvent['type'];
-        numberOfEvents?: number;
-        filter?: (eventData: TEvent['data']) => boolean;
-    }) =>
-        expectEvents<TEvent>(aggregate.events, {
-            eventType,
-            numberOfEvents,
-            filter,
-        });
+    expect(messages).toHaveLength(number);
 }
 
 export function patchPrivateMethod(

@@ -9,7 +9,7 @@ export interface MessageHeader {
     causationMessageId?: string;
     streamPosition: number;
     globalPosition: number;
-    occurredAt: Date;
+    createdAt: Date;
 }
 
 const NOT_SET = -99999;
@@ -32,7 +32,7 @@ export class Message<TData = unknown> {
 
     private static makeHeader(
         provided: Partial<
-            Omit<MessageHeader, 'occurredAt'> & { occurredAt: string | Date }
+            Omit<MessageHeader, 'createdAt'> & { createdAt: string | Date }
         > = {}
     ) {
         function transformPosition(value: any) {
@@ -44,9 +44,9 @@ export class Message<TData = unknown> {
             return NOT_SET;
         }
 
-        let occurredAt: string | Date = provided.occurredAt || new Date();
-        if (typeof occurredAt === 'string') {
-            occurredAt = new Date(occurredAt);
+        let createdAt: string | Date = provided.createdAt || new Date();
+        if (typeof createdAt === 'string') {
+            createdAt = new Date(createdAt);
         }
 
         const type = provided.type || this.type;
@@ -56,7 +56,7 @@ export class Message<TData = unknown> {
             causationMessageId: provided.causationMessageId,
             streamPosition: transformPosition(provided.streamPosition),
             globalPosition: transformPosition(provided.globalPosition),
-            occurredAt,
+            createdAt,
         } as MessageHeader;
     }
 
@@ -81,8 +81,8 @@ export class Message<TData = unknown> {
         return this.header.causationMessageId;
     }
 
-    get occurredAt() {
-        return this.header.occurredAt;
+    get createdAt() {
+        return this.header.createdAt;
     }
 
     get streamPosition() {
@@ -122,10 +122,19 @@ export class Message<TData = unknown> {
             : this;
         return new messageClass(data, header);
     }
+
+    static asType<TMessage extends Message>(
+        type: string,
+        data: TMessage['data'],
+        headerFields: Partial<MessageHeader> = {}
+    ) {
+        const message = new this(data, { ...headerFields, type });
+        return message as TMessage;
+    }
 }
 
-export class Command<TData = unknown> extends Message<TData> {}
-
-export class Event<TAggregateId = unknown, TData = unknown> extends Message<
+export type Event<TData = unknown, TAggregateId = unknown> = Message<
     { aggregateId: TAggregateId } & TData
-> {}
+>;
+
+export type Command<TData = unknown> = Message<TData>;

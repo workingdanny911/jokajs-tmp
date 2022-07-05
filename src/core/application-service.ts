@@ -1,8 +1,6 @@
 import Ajv, { ErrorObject, JSONSchemaType, ValidateFunction } from 'ajv';
 
-import { Class } from '../utils';
-
-import { Command, Message } from './message';
+import { Command, Message, MessageHeader } from './message';
 import { UnitOfWork } from './unit-of-work';
 
 const ajv = new Ajv();
@@ -15,30 +13,32 @@ class ValidationError extends Error {
     }
 }
 
-export function createCommandFactory<TCommand extends Command>(
-    commandClass: Class<TCommand>,
-    schema: JSONSchemaType<TCommand['data']>
+export function createMessageFactory<TMessage extends Message>(
+    messageType: string,
+    schema: JSONSchemaType<TMessage['data']>
 ) {
-    const commandType = commandClass.name;
-    let validate = ajv.getSchema(commandType);
+    let validate = ajv.getSchema(messageType);
     if (!validate) {
-        ajv.addSchema(schema, commandType);
-        validate = ajv.getSchema(commandType);
+        ajv.addSchema(schema, messageType);
+        validate = ajv.getSchema(messageType);
     }
 
-    return createCommandFactoryWithValidateFunction(
-        commandClass,
-        validate as ValidateFunction<JSONSchemaType<TCommand['data']>>
+    return createMessageFactoryWithValidateFunction<TMessage>(
+        messageType,
+        validate as ValidateFunction<JSONSchemaType<TMessage['data']>>
     );
 }
 
-export function createCommandFactoryWithValidateFunction<
-    TCommand extends Command
+export function createMessageFactoryWithValidateFunction<
+    TMessage extends Message = Message
 >(
-    commandClass: Class<TCommand>,
-    validate: ValidateFunction<JSONSchemaType<TCommand['data']>>
+    messageType: string,
+    validate: ValidateFunction<JSONSchemaType<TMessage['data']>>
 ) {
-    return (data: TCommand['data'], causationMessageId?: Message['id']) => {
+    return (
+        data: TMessage['data'],
+        headerFields: Partial<MessageHeader> = {}
+    ) => {
         if (!validate(data) && validate.errors) {
             throw new ValidationError(
                 'Command validation failed. See errors for details.',
@@ -46,7 +46,10 @@ export function createCommandFactoryWithValidateFunction<
             );
         }
 
-        return new commandClass(data, { causationMessageId });
+        return new Message(data, {
+            ...headerFields,
+            type: messageType,
+        });
     };
 }
 

@@ -1,9 +1,9 @@
-export class ErrorWithDetails extends Error {
-    details?: any;
+export class ErrorWithDetails<TDetails = any> extends Error {
+    details: TDetails;
 
-    constructor(message?: string, details?: any) {
+    constructor(message?: string, details = {}) {
         super(message);
         this.name = this.constructor.name;
-        this.details = details;
+        this.details = details as TDetails;
     }
 }

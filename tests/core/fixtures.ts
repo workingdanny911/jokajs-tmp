@@ -1,29 +1,18 @@
-import {
-    Aggregate,
-    AggregateError,
-    Command,
-    createCommandFactory,
-    Event,
-} from '@joka/core';
+import { Aggregate, Command, createMessageFactory, Event } from '@joka/core';
 
 export type CounterId = number;
 
 let counterId = 1;
 
-class CounterEvent<TData> extends Event<
-    CounterId,
-    { aggregateId: CounterId } & TData
-> {}
+type CounterEvent<TData = any> = Event<TData, CounterId>;
 
-export class CounterCreated extends CounterEvent<{
+export type CounterCreated = CounterEvent<{
     value: number;
-}> {}
+}>;
 
-export class CounterIncremented extends CounterEvent<{
+export type CounterIncremented = CounterEvent<{
     by: number;
-}> {}
-
-class CounterError extends AggregateError {}
+}>;
 
 export class Counter extends Aggregate<
     CounterId,
@@ -35,7 +24,7 @@ export class Counter extends Aggregate<
     initialValue = 0;
 
     protected raiseInitialEvents({ value }: { value: number }) {
-        this.raise(CounterCreated, { value });
+        this.raise<CounterCreated>('CounterCreated', { value });
     }
 
     protected afterCreation() {
@@ -43,11 +32,11 @@ export class Counter extends Aggregate<
     }
 
     increment(by: number) {
-        this.raise(CounterIncremented, { by });
+        this.raise<CounterIncremented>('CounterIncremented', { by });
     }
 
     simulateFailure(message: string, additionalDetails: any) {
-        this.throwError(CounterError, message, additionalDetails);
+        this.throwError('CounterError', message, additionalDetails);
     }
 
     private whenCounterCreated({ value }: CounterCreated['data']) {
@@ -59,31 +48,30 @@ export class Counter extends Aggregate<
     }
 }
 
-class CreateCounter extends Command<{ value: number }> {}
+export type CreateCounter = Command<{ value: number }>;
 
-export class IncrementCounter extends Command<{
-    counterId: number;
-    by: number;
-}> {}
+export type IncrementCounter = Command<{ counterId: CounterId; by: number }>;
 
-export const makeCreateCounterCommand = createCommandFactory(CreateCounter, {
-    type: 'object',
-    properties: {
-        value: { type: 'number', nullable: false },
-    },
-    required: ['value'],
-});
-export const makeIncrementCounterCommand = createCommandFactory(
-    IncrementCounter,
+export const makeCreateCounterCommand = createMessageFactory<CreateCounter>(
+    'CreateCounter',
     {
+        type: 'object',
+        properties: {
+            value: { type: 'number', nullable: false },
+        },
+        required: ['value'],
+    }
+);
+
+export const makeIncrementCounterCommand =
+    createMessageFactory<IncrementCounter>('IncrementCounter', {
         type: 'object',
         properties: {
             counterId: { type: 'number', nullable: false },
             by: { type: 'number', nullable: false },
         },
         required: ['counterId', 'by'],
-    }
-);
+    });
 
 export function resetCounterId() {
     counterId = 1;

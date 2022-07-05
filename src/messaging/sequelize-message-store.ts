@@ -40,10 +40,10 @@ export class SequelizeMessageStore implements MessageStore {
         });
 
         return messageDMs.map((messageDM) => {
-            const occurredAt = new Date(messageDM.messageHeader.occurredAt);
+            const createdAt = new Date(messageDM.messageHeader.createdAt);
             return new Message(messageDM.messageData, {
                 ...messageDM.messageHeader,
-                occurredAt,
+                createdAt,
             });
         });
     }
