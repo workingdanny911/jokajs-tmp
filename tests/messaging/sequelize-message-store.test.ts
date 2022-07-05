@@ -2,7 +2,7 @@ import {Sequelize} from 'sequelize';
 
 import {Message} from '@joka/core';
 import {SequelizeMessageStore} from '@joka/messaging';
-import {createNullMessages} from '@joka/testing';
+import {createVoidMessages} from '@joka/testing';
 
 import container from './container';
 
@@ -12,7 +12,7 @@ describe('SequelizeMessageStore', () => {
     const model = SequelizeMessageStore.model;
 
     const messageStore = new SequelizeMessageStore(sequelize);
-    const messages = createNullMessages(10);
+    const messages = createVoidMessages(10);
 
     beforeAll(async () => {
         await model.sync({ force: true });

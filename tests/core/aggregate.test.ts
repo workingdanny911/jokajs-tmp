@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 
 import { AggregateError, Message } from '@joka/core';
-import { expectEvents } from '@joka/testing';
+import { expectMessages } from '@joka/testing';
 
 import { Counter, CounterCreated, CounterIncremented } from './fixtures';
 
@@ -16,7 +16,7 @@ describe('Aggregate', () => {
 
         expect(counter.value).toBe(0);
 
-        expectEvents<CounterCreated>(counter.events, {
+        expectMessages<CounterCreated>(counter.events, {
             type: 'CounterCreated',
             filter(e) {
                 return e.aggregateId === 1 && e.value === 0;
@@ -35,7 +35,7 @@ describe('Aggregate', () => {
 
         counter.increment(1);
 
-        expectEvents(counter.events, {
+        expectMessages(counter.events, {
             number: counter.events.length,
             filter(data, e) {
                 return e.causationMessageId === 'causation-command-id';

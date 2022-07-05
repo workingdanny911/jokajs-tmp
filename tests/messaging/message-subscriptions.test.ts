@@ -4,7 +4,7 @@ import {
     MessageConsumer,
     MessageSubscriptions,
 } from '@joka/messaging';
-import { createNullMessage } from '@joka/testing';
+import { createVoidMessage } from '@joka/testing';
 
 describe('MessageSubscriptions', () => {
     test('notifying', async () => {
@@ -18,7 +18,7 @@ describe('MessageSubscriptions', () => {
             },
         };
         subscriptions.subscribe(consumer);
-        const message = createNullMessage();
+        const message = createVoidMessage();
 
         await subscriptions.notifyMessages([message]);
 
@@ -44,7 +44,7 @@ describe('MessageSubscriptions', () => {
         };
         subscriptions.subscribe(consumer);
         subscriptions.subscribe(consumer2);
-        const message = createNullMessage();
+        const message = createVoidMessage();
 
         await subscriptions.notifyMessages([message]);
 
@@ -69,7 +69,7 @@ describe('MessageSubscriptions', () => {
         };
         subscriptions.subscribe(consumer);
         subscriptions.subscribe(failingConsumer);
-        const messages = [createNullMessage(), createNullMessage()];
+        const messages = [createVoidMessage(), createVoidMessage()];
 
         const results = await subscriptions.notifyMessages(messages);
 

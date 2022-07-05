@@ -2,17 +2,17 @@ import { Sequelize } from 'sequelize';
 
 import { Message } from '../core';
 
-export function expectEvents<TMessage extends Message = Message<any>>(
+export function expectMessages<TMessage extends Message = Message<any>>(
     messages: Message[],
     {
+        count = 1,
         type,
-        number = 1,
         filter,
-    }: {
-        type?: TMessage['type'];
-        number?: number;
-        filter?: (data: TMessage['data'], message: TMessage) => boolean;
-    }
+    }: Partial<{
+        count: number;
+        type: TMessage['type'];
+        filter: (data: TMessage['data'], message: TMessage) => boolean;
+    }>
 ) {
     if (type) {
         messages = messages.filter((message) => message.type === type);
@@ -24,10 +24,10 @@ export function expectEvents<TMessage extends Message = Message<any>>(
         );
     }
 
-    expect(messages).toHaveLength(number);
+    expect(messages).toHaveLength(count);
 }
 
-export function patchPrivateMethod(
+export function patchMethod(
     instance: any,
     methodName: string,
     mockImplementation: any
@@ -38,12 +38,12 @@ export function patchPrivateMethod(
     return originalFn.bind(instance);
 }
 
-export function createNullMessage() {
-    return new Message<null>(null);
+export function createVoidMessage() {
+    return new Message<void>(undefined);
 }
 
-export function createNullMessages(count: number) {
-    return Array.from({ length: count }, () => createNullMessage());
+export function createVoidMessages(count: number) {
+    return Array.from({ length: count }, () => createVoidMessage());
 }
 
 export async function truncateAllTables(sequelize: Sequelize) {

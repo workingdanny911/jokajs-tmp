@@ -1,14 +1,14 @@
 import pg from 'pg';
 
 import { MDBEventStore } from '@joka/event-sourcing';
-import { createNullMessages } from '@joka/testing';
+import { createVoidMessages } from '@joka/testing';
 
 import container from './container';
 
 describe('MDBEventStore', () => {
     const client = container.get<pg.Client>('PGClient');
     const messageStore = new MDBEventStore(client);
-    const messages = createNullMessages(10);
+    const messages = createVoidMessages(10);
 
     beforeAll(async () => {
         await client.connect();

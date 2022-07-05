@@ -1,7 +1,7 @@
 import {Message} from '@joka/core';
 import {RedisClient} from '@joka/utils';
 import {MessageConsumer, MessageWithRId, RedisStreamMessageConsumerGroup,} from '@joka/messaging';
-import {createNullMessages} from '@joka/testing';
+import {createVoidMessages} from '@joka/testing';
 
 import container from './container';
 
@@ -20,7 +20,7 @@ describe('RedisStreamMessageConsumerGroup', () => {
         redis
     );
 
-    const messages = createNullMessages(10);
+    const messages = createVoidMessages(10);
     const dummyConsumer = {
         name: 'dummy',
         subjects: '*',

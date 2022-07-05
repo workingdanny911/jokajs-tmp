@@ -1,5 +1,5 @@
 import { Message } from '@joka/core';
-import { createNullMessages } from '@joka/testing';
+import { createVoidMessages } from '@joka/testing';
 import {
     AllMessageTypes,
     MessageConsumingProcess,
@@ -51,7 +51,7 @@ describe('MessageConsumingProcess', () => {
     afterAll(container.unbindAllAsync);
 
     test('consuming messages', async () => {
-        const messages = createNullMessages(10);
+        const messages = createVoidMessages(10);
         await appendMessagesToStream(messages);
 
         await process.run(1);

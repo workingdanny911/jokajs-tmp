@@ -7,7 +7,7 @@ import {
     RedisStreamSerializer,
     SequelizeMessageStore,
 } from '@joka/messaging';
-import { createNullMessages } from '@joka/testing';
+import { createVoidMessages } from '@joka/testing';
 import { RedisClient } from '@joka/utils';
 
 import container from '../container';
@@ -36,7 +36,7 @@ describe('MessagePublishingProcess', () => {
         unitOfWork
     );
 
-    const messages = createNullMessages(10);
+    const messages = createVoidMessages(10);
 
     beforeAll(async () => {
         await Promise.all([model.sync({ force: true }), redis.connect()]);

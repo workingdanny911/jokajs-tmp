@@ -114,19 +114,19 @@ export abstract class Aggregate<
     }
 
     protected throwError<TDetails = any>(
-        errorType: string,
+        type: string,
         message: string,
-        additionalDetails = {} as TDetails
+        details = {} as TDetails
     ) {
         const error = new AggregateError<TDetails>(message, {
-            ...additionalDetails,
+            ...details,
             meta: {
                 aggregate: this.constructor.name,
                 aggregateId: this.id,
                 causationCommandId: this.causationCommandId,
             },
         });
-        error.name = errorType;
+        error.name = type;
         throw error;
     }
 }

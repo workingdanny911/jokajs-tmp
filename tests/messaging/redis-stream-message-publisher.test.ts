@@ -1,7 +1,7 @@
 import { Message } from '@joka/core';
 import { RedisClient } from '@joka/utils';
 import { MessageWithRId, RedisStreamMessagePublisher } from '@joka/messaging';
-import { createNullMessages } from '@joka/testing';
+import { createVoidMessages } from '@joka/testing';
 
 import container from './container';
 
@@ -37,7 +37,7 @@ describe('RedisStreamMessagePublisher', () => {
     }
 
     test('publishing - without rid', async () => {
-        const messages = createNullMessages(10);
+        const messages = createVoidMessages(10);
 
         const result = await publisher.publish(messages);
 
@@ -49,7 +49,7 @@ describe('RedisStreamMessagePublisher', () => {
     });
 
     test('publishing - with rid', async () => {
-        const messagesWithRId = createNullMessages(10).map(
+        const messagesWithRId = createVoidMessages(10).map(
             (message, i) =>
                 ({
                     rId: i + 1,
