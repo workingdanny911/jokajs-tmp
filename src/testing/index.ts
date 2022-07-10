@@ -39,11 +39,11 @@ export function patchMethod(
 }
 
 export function createVoidMessage() {
-    return new Message<void>(undefined);
+    return new Message<null>(null);
 }
 
 export function createVoidMessages(count: number) {
-    return Array.from({ length: count }, () => createVoidMessage());
+    return Array.from({ length: count }, createVoidMessage);
 }
 
 export async function truncateAllTables(sequelize: Sequelize) {

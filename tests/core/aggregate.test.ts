@@ -36,7 +36,7 @@ describe('Aggregate', () => {
         counter.increment(1);
 
         expectMessages(counter.events, {
-            number: counter.events.length,
+            count: counter.events.length,
             filter(data, e) {
                 return e.causationMessageId === 'causation-command-id';
             },
