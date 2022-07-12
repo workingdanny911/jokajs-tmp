@@ -1,8 +1,10 @@
 import 'reflect-metadata';
 import { Controller } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
 
-type ControllerDependencies = { [controllerProperty: string]: any };
+interface ControllerDependency {
+    property: string;
+    key: any;
+}
 
 export interface RouteConfig<TParams extends any[] = any[], TResponse = any> {
     name: string;
@@ -13,24 +15,26 @@ export interface RouteConfig<TParams extends any[] = any[], TResponse = any> {
 
 export function createControllerClass(
     name: string,
-    dependencies: ControllerDependencies
+    dependencies: ControllerDependency[]
 ) {
     class ControllerClass {
-        private injectedDependencies: { [property: string]: any } = {};
+        private dependencies: { [property: string]: any } = {};
 
-        constructor(private moduleRef: ModuleRef) {
-            for (const [property, dependencyKey] of Object.entries(
-                dependencies
-            )) {
-                const dep = moduleRef.get(dependencyKey);
-                (this as any)[property] = dep;
-                this.injectedDependencies[property] = dep;
-            }
+        constructor(...injectedDependencies: any[]) {
+            injectedDependencies.forEach((injectedDependency, index) => {
+                const { property } = dependencies[index];
+                (this as any)[property] = injectedDependency;
+                this.dependencies[property] = injectedDependency;
+            });
         }
     }
 
     Object.defineProperty(ControllerClass, 'name', { value: name });
-    Reflect.defineMetadata('design:paramtypes', [ModuleRef], ControllerClass);
+    Reflect.defineMetadata(
+        'design:paramtypes',
+        dependencies.map(({ key }) => key),
+        ControllerClass
+    );
 
     return ControllerClass as { new (): any };
 }
@@ -70,12 +74,12 @@ export function buildControllerClass({
     name,
     urlPrefix,
     decorators = [],
-    dependencies = {},
+    dependencies = [],
     routes = [],
 }: {
     name: string;
     decorators: ClassDecorator[];
-    dependencies: ControllerDependencies;
+    dependencies: ControllerDependency[];
     urlPrefix: string;
     routes: any[];
 }) {

@@ -10,10 +10,10 @@ const foo = 'foo';
 const DEFAULT_CONTROLLER_CONFIG = {
     name: 'FooController',
     routePrefix: '',
-    dependencies: { foo: 'foo' },
+    dependencies: [{ property: 'foo', key: 'FOO' }],
 };
 const DEFAULT_MODULE_METADATA = {
-    providers: [{ provide: 'foo', useValue: foo }],
+    providers: [{ provide: 'FOO', useValue: foo }],
 };
 
 async function setup(controllerConfig?: any, moduleMetadata?: any) {
@@ -50,7 +50,7 @@ describe('createControllerClass', () => {
         const { app, module, controllerClass } = await setup({
             name: 'FooController',
             prefix: '',
-            dependencies: { foo: 'foo' },
+            dependencies: [{ property: 'foo', key: 'FOO' }],
         });
 
         const controller = app.select(module).get(controllerClass) as any;

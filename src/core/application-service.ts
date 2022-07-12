@@ -5,7 +5,7 @@ import { UnitOfWork } from './unit-of-work';
 
 const ajv = new Ajv();
 
-class ValidationError extends Error {
+export class ValidationError extends Error {
     name = 'ValidationError';
 
     constructor(message: string, public errors: ErrorObject[] = []) {
