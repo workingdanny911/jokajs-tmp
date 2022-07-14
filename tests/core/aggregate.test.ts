@@ -43,6 +43,25 @@ describe('Aggregate', () => {
         });
     });
 
+    test('every event raised by aggregate preserves namespace', () => {
+        const counter = new Counter({
+            id: 1,
+            data: {
+                value: 0,
+            },
+            causationCommandId: 'causation-command-id',
+        });
+
+        counter.increment(1);
+
+        expectMessages(counter.events, {
+            count: counter.events.length,
+            filter(data, e) {
+                return e.namespace === 'test-context';
+            },
+        });
+    });
+
     test('can be reconstituted from events', () => {
         const counterCreated = Message.asType<CounterCreated>(
             'CounterCreated',

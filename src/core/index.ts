@@ -1,6 +1,7 @@
 export * from './application-service';
 
 export * from './entity';
+export * from './aggregate';
 
 export * from './message';
 

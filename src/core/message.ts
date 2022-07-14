@@ -6,6 +6,7 @@ import { MessageRegistry } from './message-registry';
 export interface MessageHeader {
     id: string;
     type: string;
+    namespace: string;
     causationMessageId?: string;
     streamPosition: number;
     globalPosition: number;
@@ -51,8 +52,9 @@ export class Message<TData = unknown> {
 
         const type = provided.type || this.type;
         return {
-            id: provided.id || uuid(),
+            id: provided.id ?? uuid(),
             type,
+            namespace: provided.namespace ?? '',
             causationMessageId: provided.causationMessageId,
             streamPosition: transformPosition(provided.streamPosition),
             globalPosition: transformPosition(provided.globalPosition),
@@ -70,6 +72,10 @@ export class Message<TData = unknown> {
 
     get type() {
         return this.header.type;
+    }
+
+    get namespace() {
+        return this.header.namespace;
     }
 
     // for testing purposes

@@ -1,4 +1,10 @@
-import { Aggregate, Command, createMessageFactory, Event } from '@joka/core';
+import {
+    Aggregate,
+    Command,
+    createMessageFactory,
+    Event,
+    When,
+} from '@joka/core';
 
 export type CounterId = number;
 
@@ -20,6 +26,8 @@ export class Counter extends Aggregate<
         value: number;
     }
 > {
+    static readonly namespace = 'test-context';
+
     value!: number;
     initialValue = 0;
 
@@ -39,11 +47,13 @@ export class Counter extends Aggregate<
         this.throwError('CounterError', message, additionalDetails);
     }
 
-    private whenCounterCreated({ value }: CounterCreated['data']) {
+    @When('CounterCreated')
+    private setInitialValue({ value }: CounterCreated['data']) {
         this.value = value;
     }
 
-    private whenCounterIncremented({ by }: CounterIncremented['data']) {
+    @When('CounterIncremented')
+    private incrementValue({ by }: CounterIncremented['data']) {
         this.value += by;
     }
 }
