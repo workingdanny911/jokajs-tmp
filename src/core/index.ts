@@ -4,6 +4,8 @@ export * from './entity';
 export * from './aggregate';
 
 export * from './message';
+export * from './message-consumer';
+export * from './message-bus';
 
 export * from './value-object';
 

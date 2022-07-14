@@ -27,17 +27,6 @@ export function expectMessages<TMessage extends Message = Message<any>>(
     expect(messages).toHaveLength(count);
 }
 
-export function patchMethod(
-    instance: any,
-    methodName: string,
-    mockImplementation: any
-) {
-    const prototype = Object.getPrototypeOf(instance);
-    const originalFn = prototype[methodName];
-    prototype[methodName] = mockImplementation;
-    return originalFn.bind(instance);
-}
-
 export function createVoidMessage() {
     return new Message<null>(null);
 }

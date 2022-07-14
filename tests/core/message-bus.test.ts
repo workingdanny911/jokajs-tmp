@@ -1,14 +1,9 @@
-import { Message } from '@joka/core';
-import {
-    AllMessageTypes,
-    MessageConsumer,
-    MessageSubscriptions,
-} from '@joka/messaging';
+import { Message, MessageBus, MessageConsumer } from '@joka/core';
 import { createVoidMessage } from '@joka/testing';
 
-describe('MessageSubscriptions', () => {
+describe('MessageBus', () => {
     test('notifying', async () => {
-        const subscriptions = new MessageSubscriptions();
+        const bus = new MessageBus();
         const messages: Message[] = [];
         const consumer = {
             name: 'consumer',
@@ -17,16 +12,16 @@ describe('MessageSubscriptions', () => {
                 messages.push(message);
             },
         };
-        subscriptions.subscribe(consumer);
+        bus.subscribe(consumer);
         const message = createVoidMessage();
 
-        await subscriptions.notifyMessages([message]);
+        await bus.notifyMessages([message]);
 
         expect(messages).toEqual([message]);
     });
 
     test('notifying with multiple consumers', async () => {
-        const subscriptions = new MessageSubscriptions();
+        const bus = new MessageBus();
         const messages: Message[] = [];
         const consumer = {
             name: 'consumer',
@@ -42,17 +37,17 @@ describe('MessageSubscriptions', () => {
                 messages.push(message);
             },
         };
-        subscriptions.subscribe(consumer);
-        subscriptions.subscribe(consumer2);
+        bus.subscribe(consumer);
+        bus.subscribe(consumer2);
         const message = createVoidMessage();
 
-        await subscriptions.notifyMessages([message]);
+        await bus.notifyMessages([message]);
 
         expect(messages).toEqual([message, message]);
     });
 
     test('notifying - return value', async () => {
-        const subscriptions = new MessageSubscriptions();
+        const bus = new MessageBus();
         const consumer = {
             name: 'consumer',
             subjects: new Set(['Message']),
@@ -67,11 +62,11 @@ describe('MessageSubscriptions', () => {
                 throw new Error(message.id);
             },
         };
-        subscriptions.subscribe(consumer);
-        subscriptions.subscribe(failingConsumer);
+        bus.subscribe(consumer);
+        bus.subscribe(failingConsumer);
         const messages = [createVoidMessage(), createVoidMessage()];
 
-        const results = await subscriptions.notifyMessages(messages);
+        const results = await bus.notifyMessages(messages);
 
         for (let i = 0; i < messages.length; i++) {
             const result = results[i];
@@ -107,11 +102,11 @@ describe('MessageSubscriptions', () => {
 
         const fooMessage = new Message<null>(null, { type: 'FooMessage' });
         const barMessage = new Message<null>(null, { type: 'BarMessage' });
-        const subscriptions = new MessageSubscriptions();
-        subscriptions.subscribe(fooConsumer);
-        subscriptions.subscribe(barConsumer);
+        const bus = new MessageBus();
+        bus.subscribe(fooConsumer);
+        bus.subscribe(barConsumer);
 
-        await subscriptions.notifyMessages([fooMessage, barMessage]);
+        await bus.notifyMessages([fooMessage, barMessage]);
 
         expect(fooConsumer.consume).toHaveBeenCalledTimes(1);
         expect(fooConsumer.consume).toHaveBeenCalledWith(fooMessage, {
@@ -129,17 +124,17 @@ describe('MessageSubscriptions', () => {
     test('subscribing to all message types', async () => {
         const allConsumer = {
             name: 'all',
-            subjects: '*' as AllMessageTypes,
+            subjects: '*',
             consume: jest.fn(async (message: Message) => {
                 return;
             }),
         };
         const fooMessage = new Message<null>(null, { type: 'FooMessage' });
         const barMessage = new Message<null>(null, { type: 'BarMessage' });
-        const subscriptions = new MessageSubscriptions();
-        subscriptions.subscribe(allConsumer);
+        const bus = new MessageBus();
+        bus.subscribe(allConsumer);
 
-        await subscriptions.notifyMessages([fooMessage, barMessage]);
+        await bus.notifyMessages([fooMessage, barMessage]);
         expect(allConsumer.consume).toHaveBeenCalledTimes(2);
         expect(allConsumer.consume).toHaveBeenCalledWith(fooMessage, {
             size: 2,

@@ -1,8 +1,6 @@
-import { Message } from '../core';
+import { Message, MessageBus, MessageConsumer } from '../core';
 import { PromiseSettledResult, RedisClient } from '../utils';
 
-import { MessageSubscriptions } from './message-subscriptions';
-import { MessageConsumer } from './message-consumer';
 import { MessageWithRId, RedisStreamSerializer } from './helpers';
 
 interface RedisStreamMessageConsumerGroupOptions {
@@ -17,8 +15,7 @@ export class RedisStreamMessageConsumerGroup {
     private readonly options: RedisStreamMessageConsumerGroupOptions & {
         consumer: string;
     };
-    private readonly subscriptions: MessageSubscriptions =
-        new MessageSubscriptions();
+    private readonly messageBus = new MessageBus();
 
     constructor(
         options: RedisStreamMessageConsumerGroupOptions,
@@ -109,7 +106,7 @@ export class RedisStreamMessageConsumerGroup {
     }
 
     public join(consumer: MessageConsumer) {
-        this.subscriptions.subscribe(consumer);
+        this.messageBus.subscribe(consumer);
     }
 
     public async processNewMessages() {
@@ -118,7 +115,7 @@ export class RedisStreamMessageConsumerGroup {
 
         for (const { rId, message } of messagesWithRId) {
             const results: PromiseSettledResult[] =
-                await this.subscriptions.notifyMessage(message);
+                await this.messageBus.notifyMessage(message);
 
             const shouldSendACK = results.every(
                 (promise) => promise.status === 'fulfilled'

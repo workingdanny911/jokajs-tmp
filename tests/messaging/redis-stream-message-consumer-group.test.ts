@@ -1,7 +1,10 @@
-import {Message} from '@joka/core';
-import {RedisClient} from '@joka/utils';
-import {MessageConsumer, MessageWithRId, RedisStreamMessageConsumerGroup,} from '@joka/messaging';
-import {createVoidMessages} from '@joka/testing';
+import { Message, MessageConsumer } from '@joka/core';
+import { RedisClient } from '@joka/utils';
+import {
+    MessageWithRId,
+    RedisStreamMessageConsumerGroup,
+} from '@joka/messaging';
+import { createVoidMessages } from '@joka/testing';
 
 import container from './container';
 

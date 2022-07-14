@@ -1,7 +1,6 @@
 import { Message } from '@joka/core';
 import { createVoidMessages } from '@joka/testing';
 import {
-    AllMessageTypes,
     MessageConsumingProcess,
     RedisStreamMessageConsumerGroup,
 } from '@joka/messaging';
@@ -10,7 +9,7 @@ import container from '../container';
 
 const messageConsumerSpies = [...Array(5).keys()].map((i) => ({
     name: `spy-${i}`,
-    subjects: '*' as AllMessageTypes,
+    subjects: '*',
     consume: jest.fn(async () => {
         return;
     }),

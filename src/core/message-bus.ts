@@ -1,8 +1,7 @@
-import { Message } from '../core';
-
+import { Message } from './message';
 import { MessageConsumer } from './message-consumer';
 
-export class MessageSubscriptions {
+export class MessageBus {
     private readonly subscriptions: {
         [messageType: string]: MessageConsumer[];
     } = {};

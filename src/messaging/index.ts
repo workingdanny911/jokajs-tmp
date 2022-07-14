@@ -1,7 +1,5 @@
 export * from './helpers';
 
-export * from './message-subscriptions';
-export * from './message-consumer';
 export * from './idempotent-message-consumer';
 
 export * from './redis-stream-message-consumer-group';

@@ -1,13 +1,11 @@
-import { Message } from '../core';
-
-export type AllMessageTypes = '*';
+import { Message } from './message';
 
 export interface MessageConsumer<TMessage extends Message = Message<any>> {
     name: string;
-    subjects: AllMessageTypes | Set<string>;
+    subjects: string | Set<string>;
 
     consume(
-        message: Message,
+        message: TMessage,
         chunkInfo: { size: number; current: number }
     ): Promise<any>;
 }

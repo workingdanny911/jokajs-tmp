@@ -1,6 +1,5 @@
-import { Message, UnitOfWork } from '../core';
+import { Message, MessageConsumer, UnitOfWork } from '../core';
 
-import { AllMessageTypes, MessageConsumer } from './message-consumer';
 import { MessageTracker } from './message-tracker';
 
 export abstract class IdempotentMessageConsumer<
@@ -8,7 +7,7 @@ export abstract class IdempotentMessageConsumer<
 > implements MessageConsumer
 {
     abstract name: string;
-    abstract subjects: AllMessageTypes | Set<string>;
+    abstract subjects: string | Set<string>;
 
     constructor(
         private tracker: MessageTracker,
