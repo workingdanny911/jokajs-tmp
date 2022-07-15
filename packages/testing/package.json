@@ -1,6 +1,6 @@
 {
     "name": "@joka/testing",
-    "version": "0.10.0-alpha.0",
+    "version": "0.11.0-alpha.0",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "files": [
@@ -22,7 +22,7 @@
     },
     "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme",
     "description": "",
-    "gitHead": "135aeba478f1b44be2b5603bb99ffc4fe5ddf841",
+    "gitHead": "cb0b9221b02a6e6532edd93bc17236323b891d5c",
     "publishConfig": {
         "access": "public"
     }
