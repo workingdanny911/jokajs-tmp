@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 
-import { Message } from '@joka/core';
+import { Message } from '@jokajs/core';
 
 export function expectMessages<TMessage extends Message = Message<any>>(
     messages: Message[],

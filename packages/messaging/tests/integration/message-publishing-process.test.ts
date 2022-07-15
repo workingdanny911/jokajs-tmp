@@ -1,14 +1,14 @@
 import { Sequelize } from 'sequelize';
 
-import { SequelizeUnitOfWork } from '@joka/core';
+import { SequelizeUnitOfWork } from '@jokajs/core';
 import {
     MessagePublishingProcess,
     RedisStreamMessagePublisher,
     RedisStreamSerializer,
     SequelizeMessageStore,
-} from '../src';
-import { createVoidMessages } from '@joka/testing';
-import { RedisClient } from '@joka/utils';
+} from '@jokajs/messaging';
+import { createVoidMessages } from '@jokajs/testing';
+import { RedisClient } from '@jokajs/utils';
 
 import container from '../container';
 

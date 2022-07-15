@@ -1,4 +1,4 @@
-import { Message, MessageConsumer, UnitOfWork } from '@joka/core';
+import { Message, MessageConsumer, UnitOfWork } from '@jokajs/core';
 
 import { MessageTracker } from './message-tracker';
 

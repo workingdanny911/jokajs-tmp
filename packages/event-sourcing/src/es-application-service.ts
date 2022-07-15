@@ -4,8 +4,8 @@ import {
     Command,
     Event,
     UnitOfWork,
-} from '@joka/core';
-import { Class } from '@joka/utils';
+} from '@jokajs/core';
+import { Class } from '@jokajs/utils';
 
 import { MDBEventStore, MDBRawEvent } from './mdb-event-store';
 

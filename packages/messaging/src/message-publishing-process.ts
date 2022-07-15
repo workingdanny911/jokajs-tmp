@@ -1,5 +1,5 @@
-import { UnitOfWork } from '@joka/core';
-import { TrampolineRunner } from '@joka/utils';
+import { UnitOfWork } from '@jokajs/core';
+import { TrampolineRunner } from '@jokajs/utils';
 
 import { RedisStreamMessagePublisher } from './redis-stream-message-publisher';
 import { MessageStore } from './message-store';

@@ -1,4 +1,4 @@
-import { Message } from '@joka/core';
+import { Message } from '@jokajs/core';
 
 export interface MessageWithRId<T = unknown> {
     rId: string | number;

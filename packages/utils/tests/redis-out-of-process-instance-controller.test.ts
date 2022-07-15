@@ -1,4 +1,7 @@
-import { RedisClient, RedisOutOfProcessInstanceController } from '@joka/utils';
+import {
+    RedisClient,
+    RedisOutOfProcessInstanceController,
+} from '@jokajs/utils';
 
 import container from './container';
 
@@ -21,7 +24,7 @@ describe('RedisOutOfProcessInstanceReservation', () => {
     });
 
     afterAll(async () => {
-        await Promise.all(redisClients.map(client => client.quit()));
+        await Promise.all(redisClients.map((client) => client.quit()));
         await container.unbindAllAsync();
     });
 

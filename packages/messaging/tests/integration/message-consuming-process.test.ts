@@ -1,10 +1,10 @@
-import { Message } from '@joka/core';
-import { createVoidMessages } from '@joka/testing';
+import { Message } from '@jokajs/core';
+import { createVoidMessages } from '@jokajs/testing';
 import {
     MessageConsumingProcess,
     RedisStreamMessageConsumerGroup,
-} from '../src';
-import { RedisClient } from '@joka/utils';
+} from '@jokajs/messaging';
+import { RedisClient } from '@jokajs/utils';
 import container from '../container';
 
 const messageConsumerSpies = [...Array(5).keys()].map((i) => ({

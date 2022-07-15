@@ -1,4 +1,4 @@
-import { TrampolineRunner } from '@joka/utils';
+import { TrampolineRunner } from '@jokajs/utils';
 
 import { RedisStreamMessageConsumerGroup } from './redis-stream-message-consumer-group';
 

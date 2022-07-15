@@ -3,7 +3,7 @@ import { Container } from 'inversify';
 import { Sequelize } from 'sequelize';
 
 import config from './config';
-import { RedisClient } from '@joka/utils';
+import { RedisClient } from '@jokajs/utils';
 import { createClient } from 'redis';
 
 const container = new Container();

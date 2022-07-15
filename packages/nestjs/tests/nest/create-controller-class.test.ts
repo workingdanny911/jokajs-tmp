@@ -12,7 +12,7 @@ import { Test } from '@nestjs/testing';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import request from 'supertest';
 
-import { Nest } from '../.';
+import * as Nest from '@jokajs/nestjs';
 
 const foo = 'foo';
 const DEFAULT_CONTROLLER_CONFIG = {

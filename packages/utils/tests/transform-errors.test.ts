@@ -1,4 +1,4 @@
-import { TransformErrors } from '@joka/utils';
+import { TransformErrors } from '@jokajs/utils';
 
 class ErrorA1 extends Error {}
 

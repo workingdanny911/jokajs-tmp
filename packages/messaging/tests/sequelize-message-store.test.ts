@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize';
 
-import { Message } from '@joka/core';
+import { Message } from '@jokajs/core';
 import { SequelizeMessageStore } from '../src';
-import { createVoidMessages } from '@joka/testing';
+import { createVoidMessages } from '@jokajs/testing';
 
 import container from './container';
 

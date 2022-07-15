@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { ErrorWithDetails } from '@joka/utils';
+import { ErrorWithDetails } from '@jokajs/utils';
 
 import { Command, Event, Message } from './message';
 import { Entity, EntityId } from './entity';

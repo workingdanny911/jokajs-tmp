@@ -2,9 +2,9 @@ import cls from 'cls-hooked';
 import { Container } from 'inversify';
 import { Sequelize } from 'sequelize';
 import { createClient } from 'redis';
+import { SequelizeUnitOfWork } from '@jokajs/core';
+import { RedisClient } from '@jokajs/utils';
 import config from './config';
-import { SequelizeUnitOfWork } from '@joka/core';
-import { RedisClient } from '@joka/utils';
 
 const container = new Container();
 

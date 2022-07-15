@@ -1,7 +1,7 @@
-import { Message } from '@joka/core';
-import { RedisClient } from '@joka/utils';
+import { Message } from '@jokajs/core';
+import { RedisClient } from '@jokajs/utils';
 import { MessageWithRId, RedisStreamMessagePublisher } from '../src';
-import { createVoidMessages } from '@joka/testing';
+import { createVoidMessages } from '@jokajs/testing';
 
 import container from './container';
 
@@ -18,7 +18,7 @@ describe('RedisStreamMessagePublisher', () => {
     });
     afterAll(async () => {
         await redis.quit();
-        await container.unbindAllAsync()
+        await container.unbindAllAsync();
     });
 
     test('publishing - with empty messages', async () => {

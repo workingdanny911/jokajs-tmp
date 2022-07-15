@@ -1,5 +1,5 @@
-import { Message, MessageBus, MessageConsumer } from '@joka/core';
-import { PromiseSettledResult, RedisClient } from '@joka/utils';
+import { Message, MessageBus, MessageConsumer } from '@jokajs/core';
+import { PromiseSettledResult, RedisClient } from '@jokajs/utils';
 
 import { MessageWithRId, RedisStreamSerializer } from './helpers';
 

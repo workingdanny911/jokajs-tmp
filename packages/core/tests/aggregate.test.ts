@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 
-import { AggregateError, Message } from '../src';
-import { expectMessages } from '@joka/testing';
+import { AggregateError, Message } from '@jokajs/core';
+import { expectMessages } from '@jokajs/testing';
 
 import { Counter, CounterCreated, CounterIncremented } from './fixtures';
 

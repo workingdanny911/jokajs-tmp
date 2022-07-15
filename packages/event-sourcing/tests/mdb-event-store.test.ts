@@ -1,7 +1,7 @@
 import pg from 'pg';
 
-import { MDBEventStore } from '@joka/event-sourcing';
-import { createVoidMessages } from '@joka/testing';
+import { MDBEventStore } from '@jokajs/event-sourcing';
+import { createVoidMessages } from '@jokajs/testing';
 
 import container from './container';
 

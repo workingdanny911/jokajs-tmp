@@ -6,7 +6,7 @@ import {
     Sequelize,
 } from 'sequelize';
 
-import { Message } from '@joka/core';
+import { Message } from '@jokajs/core';
 
 import { MessageStore } from './message-store';
 

@@ -1,4 +1,4 @@
-import { Message } from '@joka/core';
+import { Message } from '@jokajs/core';
 
 export interface MessageStore {
     append(messages: Message[]): Promise<void>;

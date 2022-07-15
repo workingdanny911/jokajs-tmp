@@ -1,7 +1,11 @@
 {
-    "extends": "@tsconfig/node16/tsconfig.json",
     "compilerOptions": {
-        "incremental": true,
+        "module": "commonjs",
+        "removeComments": true,
+        "target": "es6",
+        "lib": ["es7"],
+        "esModuleInterop": true,
+        "strictNullChecks": true,
 
         "sourceMap": true,
         "declaration": true,

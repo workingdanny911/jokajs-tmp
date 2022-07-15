@@ -1,5 +1,5 @@
 import { Message, MessageBus, MessageConsumer } from '../src';
-import { createVoidMessage } from '@joka/testing';
+import { createVoidMessage } from '@jokajs/testing';
 
 describe('MessageBus', () => {
     test('notifying', async () => {

@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 
-import { Message, UnitOfWork } from '@joka/core';
+import { Message, UnitOfWork } from '@jokajs/core';
 import { IdempotentMessageConsumer, SequelizeMessageTracker } from '../src';
 import container from './container';
 

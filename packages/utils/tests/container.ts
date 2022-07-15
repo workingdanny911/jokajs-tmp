@@ -1,8 +1,8 @@
 import cls from 'cls-hooked';
 import { Container } from 'inversify';
 import { Sequelize } from 'sequelize';
-import { SequelizeUnitOfWork } from '@joka/core';
-import { RedisClient } from '@joka/utils';
+import { SequelizeUnitOfWork } from '@jokajs/core';
+import { RedisClient } from '@jokajs/utils';
 import { createClient } from 'redis';
 import config from './config';
 
