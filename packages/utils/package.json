@@ -1,6 +1,6 @@
 {
-    "name": "@joka/utils",
-    "version": "0.12.0-alpha.0",
+    "name": "@jokajs/utils",
+    "version": "0.13.0-alpha.0",
     "main": "index.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,7 +17,7 @@
     },
     "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme",
     "description": "",
-    "gitHead": "e9cf533749a091fd4c65b54b93123fa536dbacdd",
+    "gitHead": "b0eef76b2e73a4e011a8f2001b05e1f92d958ea8",
     "publishConfig": {
         "access": "public"
     }
