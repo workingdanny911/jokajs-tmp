@@ -1,8 +1,7 @@
 {
     "name": "@joka/utils",
-    "version": "0.1.0",
+    "version": "0.1.0-alpha.0",
     "main": "index.ts",
-    "devDependencies": {},
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
