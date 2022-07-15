@@ -1,6 +1,6 @@
 {
     "name": "@joka/messaging",
-    "version": "0.1.0-alpha.0",
+    "version": "0.2.0-alpha.0",
     "description": "",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -12,8 +12,8 @@
         "test": "jest"
     },
     "dependencies": {
-        "@joka/core": "^0.1.0-alpha.0",
-        "@joka/utils": "^0.1.0-alpha.0"
+        "@joka/core": "^0.2.0-alpha.0",
+        "@joka/utils": "^0.2.0-alpha.0"
     },
     "repository": {
         "type": "git",
