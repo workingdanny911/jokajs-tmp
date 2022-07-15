@@ -1,6 +1,6 @@
 {
     "name": "@joka/messaging",
-    "version": "0.2.0-alpha.0",
+    "version": "0.3.0-alpha.0",
     "description": "",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -12,8 +12,8 @@
         "test": "jest"
     },
     "dependencies": {
-        "@joka/core": "^0.2.0-alpha.0",
-        "@joka/utils": "^0.2.0-alpha.0"
+        "@joka/core": "^0.3.0-alpha.0",
+        "@joka/utils": "^0.3.0-alpha.0"
     },
     "repository": {
         "type": "git",
@@ -25,5 +25,6 @@
     "bugs": {
         "url": "https://github.com/workingdanny911/jokajs-tmp/issues"
     },
-    "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme"
+    "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme",
+    "gitHead": "578baa1d05e6ab88503abc9760e8d07fd5c9f0e7"
 }
