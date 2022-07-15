@@ -1,0 +1,29 @@
+{
+    "name": "@joka/messaging",
+    "version": "0.1.0",
+    "description": "",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "test": "jest"
+    },
+    "dependencies": {
+        "@joka/core": "^0.1.0",
+        "@joka/utils": "^0.1.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/workingdanny911/jokajs-tmp.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/workingdanny911/jokajs-tmp/issues"
+    },
+    "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme"
+}

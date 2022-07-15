@@ -1,0 +1,28 @@
+{
+    "name": "@joka/nestjs",
+    "version": "0.1.0",
+    "description": "",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": ["dist"],
+    "scripts": {
+        "build": "tsc",
+        "test": "jest"
+    },
+    "dependencies": {
+        "@nestjs/common": "^9.0.1",
+        "@nestjs/core": "^9.0.1",
+        "reflect-metadata": "^0.1.13"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/workingdanny911/jokajs-tmp.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/workingdanny911/jokajs-tmp/issues"
+    },
+    "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme"
+}

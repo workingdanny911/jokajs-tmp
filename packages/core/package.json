@@ -1,0 +1,32 @@
+{
+    "name": "@joka/core",
+    "version": "0.1.0",
+    "description": "",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/workingdanny911/jokajs-tmp.git"
+    },
+    "dependencies": {
+        "@joka/utils": "^0.1.0",
+        "ajv": "^8.11.0",
+        "reflect-metadata": "^0.1.13",
+        "uuid": "^8.3.2",
+        "lodash": "^4.17.21"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/workingdanny911/jokajs-tmp/issues"
+    },
+    "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme"
+}

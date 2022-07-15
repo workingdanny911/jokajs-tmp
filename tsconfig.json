@@ -1,25 +1,19 @@
 {
-    "extends": "@tsconfig/node16/tsconfig.json",
+    "extends": "./tsconfig.base.json",
     "compilerOptions": {
         "rootDir": ".",
         "baseUrl": ".",
-        "outDir": "dist",
-        "sourceMap": true,
-        "declaration": true,
-
-        "noImplicitAny": true,
-
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-
-        "paths": {
-            "@joka/*": ["./src/*/index.ts"]
-        }
+        "outDir": "dist"
     },
-
-    "include": ["src"],
-    "exclude": ["node_modules", "dist"],
-
+    "include": ["packages/**/*.ts"],
+    "references": [
+        {"path": "./packages/core"},
+        {"path": "./packages/event-sourcing"},
+        {"path": "./packages/nestjs"},
+        {"path": "./packages/messaging"},
+        {"path": "./packages/testing"},
+        {"path": "./packages/utils"}
+    ],
     "ts-node": {
         "files": true
     }

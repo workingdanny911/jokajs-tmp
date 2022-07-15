@@ -1,0 +1,21 @@
+{
+    "name": "@joka/utils",
+    "version": "0.1.0",
+    "main": "index.ts",
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/workingdanny911/jokajs-tmp.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/workingdanny911/jokajs-tmp/issues"
+    },
+    "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme",
+    "description": ""
+}

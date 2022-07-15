@@ -1,0 +1,20 @@
+{
+    "extends": "@tsconfig/node16/tsconfig.json",
+    "compilerOptions": {
+        "incremental": true,
+
+        "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
+
+        "noImplicitAny": true,
+
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+
+        "composite": true
+    },
+    "ts-node": {
+        "files": true
+    }
+}

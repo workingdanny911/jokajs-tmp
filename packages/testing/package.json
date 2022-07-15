@@ -1,0 +1,23 @@
+{
+  "name": "@joka/testing",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/workingdanny911/jokajs-tmp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/workingdanny911/jokajs-tmp/issues"
+  },
+  "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme",
+  "description": ""
+}
