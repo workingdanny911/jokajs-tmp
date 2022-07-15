@@ -1,26 +1,29 @@
 {
-  "name": "@joka/testing",
-  "version": "0.9.0-alpha.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsc",
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/workingdanny911/jokajs-tmp.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/workingdanny911/jokajs-tmp/issues"
-  },
-  "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme",
-  "description": "",
-  "gitHead": "0efb2741525e6bffd4781b2dc52112c62b409e73"
+    "name": "@joka/testing",
+    "version": "0.10.0-alpha.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/workingdanny911/jokajs-tmp.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/workingdanny911/jokajs-tmp/issues"
+    },
+    "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme",
+    "description": "",
+    "gitHead": "135aeba478f1b44be2b5603bb99ffc4fe5ddf841",
+    "publishConfig": {
+        "access": "public"
+    }
 }
