@@ -1,6 +1,6 @@
 {
     "name": "@joka/core",
-    "version": "0.6.0-alpha.0",
+    "version": "0.7.0-alpha.0",
     "description": "",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -16,7 +16,7 @@
         "url": "git+https://github.com/workingdanny911/jokajs-tmp.git"
     },
     "dependencies": {
-        "@joka/utils": "^0.6.0-alpha.0",
+        "@joka/utils": "^0.7.0-alpha.0",
         "ajv": "^8.11.0",
         "lodash": "^4.17.21",
         "reflect-metadata": "^0.1.13",
@@ -29,5 +29,5 @@
         "url": "https://github.com/workingdanny911/jokajs-tmp/issues"
     },
     "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme",
-    "gitHead": "f9c3738b4ff2225df42cb706f4067aaf5c2d75e3"
+    "gitHead": "206301f79eca9ece088e6eb24a248446ac6a63e1"
 }
