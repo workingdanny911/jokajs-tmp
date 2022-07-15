@@ -1,6 +1,6 @@
 {
     "name": "@joka/utils",
-    "version": "0.7.0-alpha.0",
+    "version": "0.8.0-alpha.0",
     "main": "index.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,5 +17,5 @@
     },
     "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme",
     "description": "",
-    "gitHead": "206301f79eca9ece088e6eb24a248446ac6a63e1"
+    "gitHead": "bdadba49214c5ebdf421b39cb829f81c0c1deeff"
 }

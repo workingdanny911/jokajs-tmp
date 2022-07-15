@@ -1,6 +1,6 @@
 {
     "name": "@joka/nestjs",
-    "version": "0.7.0-alpha.0",
+    "version": "0.8.0-alpha.0",
     "description": "",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -27,5 +27,5 @@
         "url": "https://github.com/workingdanny911/jokajs-tmp/issues"
     },
     "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme",
-    "gitHead": "206301f79eca9ece088e6eb24a248446ac6a63e1"
+    "gitHead": "bdadba49214c5ebdf421b39cb829f81c0c1deeff"
 }
