@@ -1,6 +1,6 @@
 {
     "name": "@joka/messaging",
-    "version": "0.11.0-alpha.0",
+    "version": "0.12.0-alpha.0",
     "description": "",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -22,7 +22,7 @@
         "url": "https://github.com/workingdanny911/jokajs-tmp/issues"
     },
     "homepage": "https://github.com/workingdanny911/jokajs-tmp#readme",
-    "gitHead": "cb0b9221b02a6e6532edd93bc17236323b891d5c",
+    "gitHead": "e9cf533749a091fd4c65b54b93123fa536dbacdd",
     "publishConfig": {
         "access": "public"
     }
