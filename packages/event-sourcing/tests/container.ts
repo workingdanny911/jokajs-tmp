@@ -1,7 +1,7 @@
 import { Container } from 'inversify';
+import pg from 'pg';
 
 import config from './config';
-import pg from 'pg';
 
 const container = new Container();
 

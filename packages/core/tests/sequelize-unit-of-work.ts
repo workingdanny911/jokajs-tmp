@@ -1,7 +1,6 @@
 import { Sequelize, Transaction } from 'sequelize';
 
 import { SequelizeUnitOfWork } from '../src';
-
 import container from './container';
 
 describe('SequelizeUnitOfWork', () => {

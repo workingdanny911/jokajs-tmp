@@ -1,8 +1,8 @@
 import { v4 as uuid } from 'uuid';
 
-import { AggregateError, Message } from '@jokajs/core';
 import { expectMessages } from '@jokajs/testing';
 
+import { AggregateError, Message } from '../src';
 import { Counter, CounterCreated, CounterIncremented } from './fixtures';
 
 describe('Aggregate', () => {

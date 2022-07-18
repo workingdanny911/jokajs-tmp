@@ -1,8 +1,7 @@
-import { v4 as uuid } from 'uuid';
-import { Sequelize } from 'sequelize';
+import {v4 as uuid} from 'uuid';
+import {Sequelize} from 'sequelize';
 
-import { SequelizeMessageTracker } from '../src';
-
+import {SequelizeMessageTracker} from '../src';
 import container from './container';
 
 describe('SequelizeMessageTracker', () => {

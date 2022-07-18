@@ -1,8 +1,7 @@
 import pg from 'pg';
 
-import { MDBEventStore } from '@jokajs/event-sourcing';
-import { createVoidMessages } from '@jokajs/testing';
-
+import {MDBEventStore} from '@jokajs/event-sourcing';
+import {createVoidMessages} from '@jokajs/testing';
 import container from './container';
 
 describe('MDBEventStore', () => {

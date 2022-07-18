@@ -1,10 +1,10 @@
 import cls from 'cls-hooked';
 import { Container } from 'inversify';
 import { Sequelize } from 'sequelize';
-
-import config from './config';
-import { RedisClient } from '@jokajs/utils';
 import { createClient } from 'redis';
+
+import { RedisClient } from '@jokajs/utils';
+import config from './config';
 
 const container = new Container();
 

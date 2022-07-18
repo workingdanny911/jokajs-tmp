@@ -1,5 +1,6 @@
-import { Message, MessageBus, MessageConsumer } from '../src';
 import { createVoidMessage } from '@jokajs/testing';
+
+import { Message, MessageBus, MessageConsumer } from '../src';
 
 describe('MessageBus', () => {
     test('notifying', async () => {

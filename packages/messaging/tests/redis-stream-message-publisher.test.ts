@@ -1,8 +1,7 @@
 import { Message } from '@jokajs/core';
 import { RedisClient } from '@jokajs/utils';
-import { MessageWithRId, RedisStreamMessagePublisher } from '../src';
 import { createVoidMessages } from '@jokajs/testing';
-
+import { MessageWithRId, RedisStreamMessagePublisher } from '../src';
 import container from './container';
 
 const STREAM = '_test-stream__redis-stream-message-publisher';

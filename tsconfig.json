@@ -3,18 +3,9 @@
     "compilerOptions": {
         "rootDir": ".",
         "baseUrl": ".",
-        "outDir": "dist"
+        "paths": {
+            "@jokajs/*": ["./packages/*"]
+        }
     },
-    "include": ["packages/**/*.ts"],
-    "references": [
-        {"path": "./packages/core"},
-        {"path": "./packages/event-sourcing"},
-        {"path": "./packages/nestjs"},
-        {"path": "./packages/messaging"},
-        {"path": "./packages/testing"},
-        {"path": "./packages/utils"}
-    ],
-    "ts-node": {
-        "files": true
-    }
+    "include": ["packages/**/*.ts"]
 }

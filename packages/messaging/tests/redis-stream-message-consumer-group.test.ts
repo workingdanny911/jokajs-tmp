@@ -1,8 +1,7 @@
 import { Message, MessageConsumer } from '@jokajs/core';
 import { RedisClient } from '@jokajs/utils';
-import { MessageWithRId, RedisStreamMessageConsumerGroup } from '../src';
 import { createVoidMessages } from '@jokajs/testing';
-
+import { MessageWithRId, RedisStreamMessageConsumerGroup } from '../src';
 import container from './container';
 
 const STREAM = '_test-stream__redis-stream-message-consumer-group';

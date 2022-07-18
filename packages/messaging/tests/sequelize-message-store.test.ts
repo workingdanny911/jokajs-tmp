@@ -1,9 +1,8 @@
 import { Sequelize } from 'sequelize';
 
 import { Message } from '@jokajs/core';
-import { SequelizeMessageStore } from '../src';
 import { createVoidMessages } from '@jokajs/testing';
-
+import { SequelizeMessageStore } from '../src';
 import container from './container';
 
 describe('SequelizeMessageStore', () => {
