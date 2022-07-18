@@ -1,27 +1,11 @@
 {
-    "extends": "@tsconfig/node16/tsconfig.json",
+    "extends": "./tsconfig.base.json",
     "compilerOptions": {
         "rootDir": ".",
         "baseUrl": ".",
-
-        "outDir": "dist",
-        "sourceMap": true,
-        "declaration": true,
-
-        "noImplicitAny": true,
-
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-
         "paths": {
-            "@joka/*": ["./src/*/index.ts"]
+            "@jokajs/*": ["./packages/*"]
         }
     },
-
-    "include": ["src"],
-    "exclude": ["node_modules", "dist"],
-
-    "ts-node": {
-        "files": true
-    }
+    "include": ["packages/**/*.ts"]
 }

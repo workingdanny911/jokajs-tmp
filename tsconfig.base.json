@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "lib": ["es7"],
+        "esModuleInterop": true,
+
+        "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
+        "removeComments": true,
+
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+
+        "composite": true
+    },
+    "ts-node": {
+        "files": true
+    }
+}
