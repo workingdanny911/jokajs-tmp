@@ -32,13 +32,7 @@ function getEventHandlerMetadataKey(
     eventType: string
 ) {
     const aggregateClass = aggregatePrototype.constructor;
-    const namespace = aggregateClass.namespace;
-
-    let key = EVENT_HANDLERS_NAMESPACE;
-    if (namespace) {
-        key += `.${namespace}`;
-    }
-    return `${key}.${aggregatePrototype.constructor.name}.${eventType}`;
+    return `${aggregateClass.name}.${eventType}`;
 }
 
 function getEventHandler(aggregateObject: any, eventType: string) {
@@ -61,11 +55,16 @@ function reflectEventHandler(
     );
 }
 
-export function When(eventType: string) {
+type EventHandler<T extends Event = Event<any, any>> = (
+    data: T['data'],
+    event: T
+) => void;
+
+export function When<T extends Event = Event<any, any>>(eventType: string) {
     return (
         aggregatePrototype: any,
         propertyKey: string,
-        descriptor: PropertyDescriptor
+        descriptor: TypedPropertyDescriptor<EventHandler<T>>
     ) => {
         reflectEventHandler(aggregatePrototype, eventType, descriptor.value);
     };
@@ -116,13 +115,13 @@ export abstract class Aggregate<
 
     protected applyEvents(events: Event[]) {
         for (const event of events) {
-            this.when(event);
+            this.dispatch(event);
         }
         const lastEvent = events.slice(-1)[0];
         this.version = lastEvent.streamPosition;
     }
 
-    protected when(event: Event) {
+    protected dispatch(event: Event) {
         const eventHandler = getEventHandler(this, event.type);
         if (!eventHandler) {
             throw new Error(`Event '${event.type}' cannot be handled.`);
@@ -130,22 +129,26 @@ export abstract class Aggregate<
         eventHandler.call(this, event['data'], event);
     }
 
-    protected raise<TEvent extends Event = Event<TId, any>>(
+    protected raise<TEvent extends Event = Event<any, TId>>(
         eventType: TEvent['type'],
         data: Omit<TEvent['data'], 'aggregateId'>
     ) {
+        const thisClass = this.constructor as any;
+        const namespace = thisClass.namespace ?? thisClass.name;
+
         const event = new Message<any>(
             {
                 aggregateId: this.id,
                 ...data,
             },
             {
+                namespace,
                 type: eventType,
                 causationMessageId: this.causationCommandId,
-                namespace: (this.constructor as any).namespace,
             }
         ) as Event;
-        this.when(event);
+        this.dispatch(event);
+
         this.events.push(event);
     }
 

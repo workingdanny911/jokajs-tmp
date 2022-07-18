@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid';
+
 import { Message } from './message';
 import { MessageConsumer } from './message-consumer';
 
@@ -31,11 +33,26 @@ export class MessageBus {
         return await Promise.allSettled(consumeProcesses);
     }
 
-    public subscribe(consumer: MessageConsumer) {
+    public subscribe(consume: MessageConsumer['consume']): () => void;
+    public subscribe(consumer: MessageConsumer): () => void;
+    public subscribe(
+        consumeOrConsumer: MessageConsumer | MessageConsumer['consume']
+    ) {
+        let consumer: MessageConsumer;
+        if (typeof consumeOrConsumer === 'function') {
+            consumer = {
+                name: uuid(),
+                subjects: '*',
+                consume: consumeOrConsumer,
+            };
+        } else {
+            consumer = consumeOrConsumer;
+        }
+
         const { subjects } = consumer;
-        if (subjects === '*') {
-            this.subscriptions['*'] = this.subscriptions['*'] || [];
-            this.subscriptions['*'].push(consumer);
+        if (typeof subjects === 'string') {
+            this.subscriptions[subjects] = this.subscriptions[subjects] || [];
+            this.subscriptions[subjects].push(consumer);
         } else {
             for (const messageType of consumer.subjects) {
                 this.subscriptions[messageType] =
@@ -43,6 +60,20 @@ export class MessageBus {
                 this.subscriptions[messageType].push(consumer);
             }
         }
+
+        return () => {
+            if (subjects === '*') {
+                this.subscriptions['*'] = this.subscriptions['*'].filter(
+                    (consumer) => consumer !== consumer
+                );
+            } else {
+                for (const messageType of subjects) {
+                    this.subscriptions[messageType] = this.subscriptions[
+                        messageType
+                    ].filter((consumer) => consumer !== consumer);
+                }
+            }
+        };
     }
 
     private getConsumers(messageType: string): MessageConsumer[] {

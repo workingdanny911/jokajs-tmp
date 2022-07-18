@@ -20,8 +20,6 @@ export class Counter extends Aggregate<
         value: number;
     }
 > {
-    static readonly namespace = 'test-context';
-
     value!: number;
     initialValue = 0;
 
@@ -41,12 +39,12 @@ export class Counter extends Aggregate<
         this.throwError('CounterError', message, additionalDetails);
     }
 
-    @When('CounterCreated')
+    @When<CounterCreated>('CounterCreated')
     private setInitialValue({ value }: CounterCreated['data']) {
         this.value = value;
     }
 
-    @When('CounterIncremented')
+    @When<CounterIncremented>('CounterIncremented')
     private incrementValue({ by }: CounterIncremented['data']) {
         this.value += by;
     }

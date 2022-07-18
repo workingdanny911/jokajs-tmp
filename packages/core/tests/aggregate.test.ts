@@ -52,12 +52,21 @@ describe('Aggregate', () => {
             causationCommandId: 'causation-command-id',
         });
 
+        expectMessages(counter.events, {
+            count: counter.events.length,
+            filter(data, e) {
+                return e.namespace === 'Counter';
+            },
+        });
+
+        (Counter as any).namespace = 'test';
+        counter.flushEvents();
         counter.increment(1);
 
         expectMessages(counter.events, {
             count: counter.events.length,
             filter(data, e) {
-                return e.namespace === 'test-context';
+                return e.namespace === 'test';
             },
         });
     });

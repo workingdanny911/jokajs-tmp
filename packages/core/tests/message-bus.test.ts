@@ -6,14 +6,9 @@ describe('MessageBus', () => {
     test('notifying', async () => {
         const bus = new MessageBus();
         const messages: Message[] = [];
-        const consumer = {
-            name: 'consumer',
-            subjects: new Set(['Message']),
-            async consume(message: Message) {
-                messages.push(message);
-            },
-        };
-        bus.subscribe(consumer);
+        bus.subscribe(async (message: Message) => {
+            messages.push(message);
+        });
         const message = createVoidMessage();
 
         await bus.notifyMessages([message]);
@@ -26,18 +21,18 @@ describe('MessageBus', () => {
         const messages: Message[] = [];
         const consumer = {
             name: 'consumer',
-            subjects: new Set(['Message']),
+            subjects: 'Message',
             async consume(message: Message) {
                 messages.push(message);
             },
         };
         const consumer2 = {
             name: 'consumer2',
-            subjects: new Set(['Message']),
+            subjects: 'Message',
             async consume(message: Message) {
                 messages.push(message);
             },
-        };
+        } as MessageConsumer;
         bus.subscribe(consumer);
         bus.subscribe(consumer2);
         const message = createVoidMessage();

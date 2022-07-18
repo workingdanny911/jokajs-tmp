@@ -14,9 +14,9 @@ export interface MessageHeader {
 const NOT_SET = -99999;
 
 export class Message<TData = unknown> {
+    static namespace = '';
     header: MessageHeader;
     data: TData;
-    private static isRegistered = false;
 
     constructor(data: TData, headerFields?: Partial<MessageHeader>) {
         this.data = data;
@@ -48,7 +48,7 @@ export class Message<TData = unknown> {
         return {
             id: provided.id ?? uuid(),
             type,
-            namespace: provided.namespace ?? '',
+            namespace: provided.namespace ?? this.namespace,
             causationMessageId: provided.causationMessageId,
             streamPosition: transformPosition(provided.streamPosition),
             globalPosition: transformPosition(provided.globalPosition),
