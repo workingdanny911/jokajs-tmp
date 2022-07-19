@@ -11,6 +11,10 @@
         {
             "name": "Seungcheol Baek",
             "email": "tmdcjf9839@gmail.com"
+        },
+        {
+            "name": "Jonghyeok Kang",
+            "email": "dkfnfn47@gmail.com"
         }
     ],
     "license": "ISC",
@@ -21,16 +25,6 @@
     "devDependencies": {
         "@nestjs/common": "^9.0.1",
         "@nestjs/core": "^9.0.1",
-        "cls-hooked": "^4.2.2",
-        "dotenv": "^16.0.0",
-        "inversify": "^6.0.1",
-        "lodash": "^4.17.21",
-        "mariadb": "^3.0.0",
-        "pg": "^8.7.3",
-        "redis": "^4.1.0",
-        "reflect-metadata": "^0.1.13",
-        "sequelize": "^6.21.1",
-        "uuid": "^8.3.2",
         "@nestjs/platform-express": "^9.0.1",
         "@nestjs/testing": "^9.0.1",
         "@tsconfig/node16": "^1.0.3",
@@ -44,17 +38,35 @@
         "@types/uuid": "^8.3.4",
         "@typescript-eslint/eslint-plugin": "^5.14.0",
         "@typescript-eslint/parser": "^5.14.0",
+        "cls-hooked": "^4.2.2",
+        "dotenv": "^16.0.0",
         "eslint": "^8.10.0",
+        "inversify": "^6.0.1",
         "jest": "^27.5.1",
         "lerna": "^5.1.8",
+        "lodash": "^4.17.21",
+        "mariadb": "^3.0.0",
         "nx": "^14.4.2",
+        "pg": "^8.7.3",
         "prettier": "^2.5.1",
+        "redis": "^4.1.0",
+        "reflect-metadata": "^0.1.13",
+        "sequelize": "^6.21.1",
         "supertest": "^6.2.4",
         "ts-jest": "^27.1.3",
         "ts-node": "^10.8.1",
-        "typescript": "^4.7.4"
+        "typescript": "^4.7.4",
+        "uuid": "^8.3.2"
     },
     "workspaces": [
         "packages/*"
-    ]
+    ],
+    "dependencies": {
+        "@jokajs/core": "file:packages/core",
+        "@jokajs/event-sourcing": "file:packages/event-sourcing",
+        "@jokajs/messaging": "file:packages/messaging",
+        "@jokajs/nestjs": "file:packages/nestjs",
+        "@jokajs/testing": "file:packages/testing",
+        "@jokajs/utils": "file:packages/utils"
+    }
 }
