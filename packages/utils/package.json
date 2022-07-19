@@ -11,6 +11,9 @@
         "build": "tsc --project ./tsconfig.build.json",
         "test": "jest"
     },
+    "dependencies": {
+        "@jokajs/core": "file:../core"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/workingdanny911/jokajs-tmp.git"

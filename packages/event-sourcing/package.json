@@ -17,6 +17,9 @@
         "url": "git+https://github.com/workingdanny911/jokajs-tmp.git"
     },
     "dependencies": {
+        "@jokajs/core": "file:../core",
+        "@jokajs/messaging": "file:../messaging",
+        "@jokajs/utils": "file:../utils",
         "lodash": "^4.17.21",
         "reflect-metadata": "^0.1.13",
         "uuid": "^8.3.2"

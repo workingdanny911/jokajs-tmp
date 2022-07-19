@@ -17,6 +17,8 @@
         "url": "git+https://github.com/workingdanny911/jokajs-tmp.git"
     },
     "dependencies": {
+        "@jokajs/testing": "file:../testing",
+        "@jokajs/utils": "file:../utils",
         "ajv": "^8.11.0",
         "lodash": "^4.17.21",
         "reflect-metadata": "^0.1.13",
