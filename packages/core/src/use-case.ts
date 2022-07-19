@@ -6,14 +6,14 @@ export abstract class UseCase<
 > {
     protected static autoAssignDependencies = true;
 
-    constructor(dependencies?: Record<string, any>) {
+    protected constructor(dependencies?: Record<string, any>) {
         if (dependencies && (this.constructor as any).autoAssignDependencies) {
             Object.assign(this, dependencies);
         }
     }
 
     // eslint-disable-next-line
-    public static createCommand(data: any): any {
+    public static createCommand(_data: any): any {
         throw new Error('not implemented');
     }
 

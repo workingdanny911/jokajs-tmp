@@ -3,7 +3,7 @@ import { Sequelize, Transaction } from 'sequelize';
 import { UnitOfWork } from './unit-of-work';
 
 export class SequelizeUnitOfWork implements UnitOfWork<Transaction> {
-    private sequelize: Sequelize;
+    private readonly sequelize: Sequelize;
 
     constructor(sequelize: Sequelize) {
         this.sequelize = sequelize;

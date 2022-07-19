@@ -25,8 +25,9 @@ export class AggregateError<TDetails = any> extends ErrorWithDetails<
     }
 > {}
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const EVENT_HANDLERS_NAMESPACE = '__aggregate_event_handlers__';
-``;
+
 function getEventHandlerMetadataKey(
     aggregatePrototype: any,
     eventType: string
