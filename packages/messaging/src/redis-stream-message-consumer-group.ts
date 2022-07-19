@@ -35,7 +35,7 @@ export class RedisStreamMessageConsumerGroup {
     public async create(createStream = false) {
         const { group, stream } = this.options;
 
-        const commandArgs: Parameters<typeof this.redis.xGroupCreate> = [
+        const commandArgs: Parameters<RedisClient["xGroupCreate"]> = [
             stream,
             group,
             '0',
