@@ -12,7 +12,9 @@
         "test": "jest"
     },
     "dependencies": {
-        "@jokajs/core": "file:../core"
+        "@jokajs/core": "file:../core",
+        "@jokajs/messaging": "file:../messaging",
+        "@jokajs/testing": "file:../testing"
     },
     "repository": {
         "type": "git",

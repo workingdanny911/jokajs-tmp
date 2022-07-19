@@ -10,7 +10,7 @@
     "scripts": {
         "publish": "npm publish",
         "build": "tsc --project ./tsconfig.build.json",
-        "test": "jest"
+        "test": "jest --passWithNoTests"
     },
     "repository": {
         "type": "git",
