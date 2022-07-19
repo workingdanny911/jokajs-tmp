@@ -10,11 +10,14 @@
     "scripts": {
         "publish": "npm publish",
         "build": "tsc --project ./tsconfig.build.json",
-        "test": "jest"
+        "test": "jest --passWithNoTests"
     },
     "dependencies": {
         "@jokajs/core": "file:../core",
         "@jokajs/utils": "file:../utils"
+    },
+    "devDependencies": {
+        "@jokajs/testing": "file:../testing"
     },
     "repository": {
         "type": "git",
