@@ -13,7 +13,7 @@ import { APP_FILTER, HttpAdapterHost } from '@nestjs/core';
 import { Test } from '@nestjs/testing';
 import request, { SuperTest } from 'supertest';
 
-import * as Nest from '@jokajs/nestjs';
+import * as Nest from '../../../src';
 
 const { ErrorToResponse } = Nest;
 

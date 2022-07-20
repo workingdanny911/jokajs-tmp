@@ -12,7 +12,7 @@ import { Test } from '@nestjs/testing';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import request from 'supertest';
 
-import * as Nest from '@jokajs/nestjs';
+import * as Nest from '../../src';
 
 const foo = 'foo';
 const DEFAULT_CONTROLLER_CONFIG = {
@@ -28,14 +28,14 @@ async function setup(controllerConfig?: any, moduleMetadata?: any) {
     if (!controllerConfig) {
         controllerConfig = DEFAULT_CONTROLLER_CONFIG;
     }
-    if (!moduleMetadata) {
-        moduleMetadata = DEFAULT_MODULE_METADATA;
-    }
 
     const controllerClass = Nest.buildControllerClass(controllerConfig);
 
     @Module({
-        ...moduleMetadata,
+        ...{
+            ...DEFAULT_MODULE_METADATA,
+            ...moduleMetadata,
+        },
         controllers: [controllerClass],
     })
     class ModuleForTest {}
