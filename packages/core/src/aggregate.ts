@@ -55,9 +55,9 @@ function reflectEventHandler(
     );
 }
 
-type EventHandler<T extends Event = Event<any, any>> =
-    | ((data: T['data']) => void)
-    | ((data: T['data'], event: T) => void);
+type EventHandler<T extends Event = Event<any, any>> = (
+    data: T['data']
+) => void | ((data: T['data'], event: T) => void);
 
 export function When<T extends Event = Event<any, any>>(eventType: string) {
     return (

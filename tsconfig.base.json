@@ -10,6 +10,8 @@
         "declarationMap": true,
         "removeComments": true,
 
+        "strict": true,
+        "strictBindCallApply": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
 
