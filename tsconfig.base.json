@@ -12,6 +12,7 @@
 
         "noImplicitAny": true,
         "strictNullChecks": true,
+        "moduleResolution": "node",
 
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
