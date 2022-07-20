@@ -1,6 +1,6 @@
 {
     "name": "@jokajs/core",
-    "version": "0.1.0",
+    "version": "0.1.5",
     "description": "",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -8,7 +8,7 @@
         "dist"
     ],
     "scripts": {
-        "publish": "npm publish",
+        "publish": "npm run build && npm publish",
         "build": "tsc --project ./tsconfig.build.json",
         "test": "jest"
     },
@@ -23,7 +23,20 @@
         "uuid": "^8.3.2"
     },
     "keywords": [],
-    "author": "",
+    "authors": [
+        {
+            "name": "Sangwoo Hyun",
+            "email": "workingdanny@naver.com"
+        },
+        {
+            "name": "Seungcheol Baek",
+            "email": "tmdcjf9839@gmail.com"
+        },
+        {
+            "name": "Jonghyeok Kang",
+            "email": "timo@redwit.io"
+        }
+    ],
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/workingdanny911/jokajs-tmp/issues"
