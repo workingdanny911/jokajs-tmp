@@ -1,4 +1,11 @@
+import { ErrorWithDetails } from '@jokajs/utils';
 import { Message } from './message';
+
+export class ApplicationError extends ErrorWithDetails {
+    constructor(public code = 'ApplicationError', ...args: any[]) {
+        super(...args);
+    }
+}
 
 export abstract class UseCase<
     TCommand extends Message<any> = Message<any>,
