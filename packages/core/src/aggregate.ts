@@ -32,7 +32,7 @@ function getEventHandlerMetadataKey(
     eventType: string
 ) {
     const aggregateClass = aggregatePrototype.constructor;
-    return `${aggregateClass.name}.${eventType}`;
+    return `${EVENT_HANDLERS_NAMESPACE}.${aggregateClass.name}.${eventType}`;
 }
 
 function getEventHandler(aggregateObject: any, eventType: string) {
