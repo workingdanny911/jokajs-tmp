@@ -40,8 +40,8 @@ export abstract class UseCase<
         }
     }
 
-    public static createCommand<TCommand extends Command = Command>(
-        payload: Partial<TCommand>
+    public static createCommand<TCommand extends Command = Command<any>>(
+        payload: Partial<TCommand['data']>
     ): TCommand {
         const { value, error } = this.commandPayloadValidator.validate(payload);
         if (error) {
